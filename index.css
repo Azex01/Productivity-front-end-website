@@ -1,34 +1,71 @@
+body{
+    direction: rtl;       /* اتجاه النص من اليمين لليسار */
+    text-align: right;
+    background-color: #141414;
+    font-family: 'Cairo';
+}
 
+.todo-container {
+    margin-top: 50px;
+    text-align: center;
+}
 
-/* h1{
-    color: white;
-    margin-left: 500px;
-    font-size: 70px;
-    
-} */
- 
+#taskInput {
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+}
 
+ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-body {
+li {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: sans-serif;
-    line-height: 1.5;
-    min-height: 100vh;
-    background: #f3f3f3;
-    flex-direction: column;
-    margin: 0;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: white;
+    margin: 5px 0;
+    border-radius: 5px;
+    color: #141414;
+}
+
+
+
+
+span.task-time{
+    margin-top: 2px;
+}
+
+span.task-name{
+    margin-top: 2px;
+}
+
+/* .stop-btn{
+    margin-left: 730px;
+    /* margin-top: -10px; 
+}
+ */
+
+button {
     background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
 }
 
-.main{
-    margin-left: -1080px;
-    margin-top: -255px;
+button:hover {
+    background-color: #141414;
 }
 
-
-
+button.add-task:hover{
+    background-color: white;
+    color: #141414;
+}
 
 .timer-circle {
     border-radius: 50%;
@@ -39,30 +76,113 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 50px;
-    color: white;
-    border: 8px solid black;
-}
-
-.control-buttons {
-    margin-top: 75px;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.control-buttons button {
-    background-color: white;
     color: black;
+    border: 8px solid black;
+  
+}
+
+
+
+.timer-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    margin-top: 41px;
+    transition: all 0.3s;
+}
+
+.timer-container:hover{
+    transform: translateY(+1%) scale(1.05);
+    .pause-btn{
+        display: block;
+    }
+    .finish-button{
+        display: block;
+    }
+}
+
+
+.timer-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    
+    font-size: 62px;
+    
+    
+
+}
+
+
+
+.pause-btn {
+    position: absolute;
+    bottom: 17%;
+    left: 47%;
+    transform: translateX(-50%);
+    padding: 12px 30px;
+    font-size: 1.2em;
+    background: #4CAF50;
+    color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 25px;
     cursor: pointer;
-    margin: 10px;
-    font-size: 20px;
+    transition: all 0.3s;
+    display: none;
 }
 
-.control-buttons button:hover {
-    background-color: #266094;
-    transition: background-color 0.3s;
+.pause-btn.paused {
+    background: #ff4757 ;     
+
 }
 
+.pause-btn.paused:hover{
+    background: #ff4757
+    
+}
+
+.pause-btn.continue {
+    background: #4CAF50 ;
+    
+}
+
+.pause-btn.continue:hover{
+    background-color: #45a049;
+}
+
+.pause-btn:hover {
+    background: #4CAF50;
+    transform: translateX(-50%) scale(1.05);
+}
+.finish-button{
+    position: absolute;
+    bottom: 0%;
+    left: 47%;
+    transform: translateX(-50%);
+    padding: 12px 30px;
+    font-size: 1.2em;
+    background: #ff4757;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: none;
+}
+
+.finish-button:hover {
+    background: #ff4757;
+    transform: translateX(-50%) scale(1.05);
+}
+
+.delete-btn:hover{
+    background: #ff4757;
+}
 

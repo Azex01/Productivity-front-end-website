@@ -6,40 +6,31 @@
     <link rel="stylesheet" href="index.css">
     <title>KFUPMer Productivity</title>
     <link rel="icon" href="https://i.pinimg.com/736x/dd/f5/a7/ddf5a7b723b8a284f07fd5ae7f2d11c8.jpg" type="image/icon type">
-
+    <!-- down here I will try to use Cairo font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
 </head>
 <body>
-    
-     
+
 
     
-    
-     
-        <div class="main">
 
+    <div class="main">
+        <div class="timer-container">
+            <div class="timer-circle" id="timer">
+               <span class="time">00:00</span> 
+            </div>
+            <button class="pause-btn" onclick="togglePauseResume()">إبدأ</button>
+        </div>
         
-        <div class="timer-circle" 
-             id="timer">15:00
-          </div>
-        <div class="control-buttons">
-            <button onclick="togglePauseResume()">
-                  وقف
-              </button>
-            <button onclick="restartTimer()">
-                  إعادة
-              </button>
-            <button onclick="chooseTime()">
-                  اختر وقت
-              </button>
+        <div class="todo-container">
+            <h2 style="color: white;">قائمة المهام</h2>
+            <input type="text" id="taskInput" placeholder="أضف مهمة جديدة">
+            <button class="add-task" onclick="addTask()">أضف مهمة</button>
+            <ul id="taskList"></ul>
         </div>
     </div>
-    <audio id="time-up-sound" src="sound.mp3" preload="auto"></audio>
-
-    
-    
-    
-    
-
 
     <script src="index.js"></script>
 </body>

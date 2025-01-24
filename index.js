@@ -11,6 +11,13 @@ let breakFlag= false;
 var audio = new Audio('sound.mp3');
 
 
+document.getElementById('taskInput').addEventListener('keypress', function (event) {
+    // تحقق إذا كان المفتاح المضغوط هو Enter (رمز المفتاح 13)
+    if (event.key === 'Enter') {
+        addTask(); // استدعاء دالة إضافة المهمة
+    }
+});
+
 function updateTaskList() {
     const taskListElement = document.getElementById('taskList');
     taskListElement.innerHTML = '';

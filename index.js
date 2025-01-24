@@ -25,12 +25,53 @@ function updateTaskList() {
         const taskTime = convertToMinutes(task.timeSpent);
         const li = document.createElement('li');
         li.innerHTML = `
-         <span class="task-name">   ${task.name} </span> <span class="task-time"> ${taskTime}</span>
+            <span class="task-name">${task.name}</span> 
+            <span class="task-time">${taskTime}</span>
+                   <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
+            <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
+            <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
+            <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
             <button onclick="startTask(${index})">بدأ</button>
             <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
+     
         `;
         taskListElement.appendChild(li);
+
+        // Apply the saved priority text if exists
+        if (task.priority) {
+            const priorityText = getPriorityText(task.priority);
+            li.innerHTML = `
+                <span class="task-name">${task.name}</span> 
+                <span class="task-time">${taskTime}</span>
+                <span class="priority-text">${priorityText}</span>
+                <button onclick="startTask(${index})">بدأ</button>
+                <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
+                
+            `;
+        }
     });
+}
+
+function getPriorityText(priorityClass) {
+    switch (priorityClass) {
+        case 'urgent-important':
+            return 'عاجل ومهم';
+        case 'urgent-not-important':
+            return 'عاجل وغير مهم';
+        case 'not-urgent-important':
+            return 'غير عاجل ومهم';
+        case 'not-urgent-not-important':
+            return 'غير عاجل وغير مهم';
+        default:
+            return '';
+    }
+}
+
+function setPriority(index, priorityClass) {
+    const task = tasks[index];
+    task.priority = priorityClass;
+    saveTasksToLocalStorage();
+    updateTaskList();
 }
 
 function convertToMinutes(timeInMinutes) {

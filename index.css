@@ -186,3 +186,7 @@ button.add-task:hover{
     background: #ff4757;
 }
 
+
+.priority-text {
+    font-weight: bold;
+}

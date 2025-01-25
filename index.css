@@ -213,5 +213,7 @@ button.add-task:hover{
 }
 
 
-  
-  
+.completed-task {
+    text-decoration: line-through;
+    color: gray;
+}

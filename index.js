@@ -32,17 +32,21 @@ document.getElementById('taskInput').addEventListener('keypress', function (even
 function updateTaskList() {
     const taskListElement = document.getElementById('taskList');
     taskListElement.innerHTML = '';
+    
     tasks.forEach((task, index) => {
         const taskTime = convertToMinutes(task.timeSpent);
+        const taskClass = task.completed ? 'completed-task' : '';
         const li = document.createElement('li');
         li.innerHTML = `
+            <span class="task-name ${taskClass}">${task.name}</span> 
             <span class="task-name">${task.name}</span> 
             <span class="task-time">${taskTime}</span>
-                   <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
+            <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
             <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
             <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
             <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
             <button onclick="startTask(${index})">بدأ</button>
+            ${!task.completed ? `<button class="complete-btn" onclick="markTaskComplete(${index})">تم</button>` : ''}
             <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
      
         `;
@@ -52,16 +56,27 @@ function updateTaskList() {
         if (task.priority) {
             const priorityText = getPriorityText(task.priority);
             li.innerHTML = `
-                <span class="task-name">${task.name}</span> 
+            <span class="task-name ${taskClass}">${task.name}</span> 
+                
                 <span class="task-time">${taskTime}</span>
                 <span class="priority-text">${priorityText}</span>
                 <button onclick="startTask(${index})">بدأ</button>
+            ${!task.completed ? `<button class="complete-btn" onclick="markTaskComplete(${index})">تم</button>` : ''}
                 <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
+                
                 
             `;
         }
     });
 }
+
+function markTaskComplete(index) {
+    tasks[index].completed = !tasks[index].completed; // تبديل حالة الإكمال
+    saveTasksToLocalStorage(); // حفظ المهام في التخزين المحلي
+    updateTaskList(); // إعادة تحديث قائمة المهام
+}
+
+
 
 function getPriorityText(priorityClass) {
     switch (priorityClass) {
@@ -99,7 +114,8 @@ function addTask() {
     if (taskName) {
         const newTask = {
             name: taskName,
-            timeSpent: 0
+            timeSpent: 0,
+            completed: false,
         };
         tasks.push(newTask);
         taskInput.value = '';
@@ -142,24 +158,40 @@ function startTask(index) {
 
 
 function startBreak() {
+    // ??
+    
     breakFlag=true;
-    const breakTime = prompt('بريييك , حدد وقت البريك بالدقائق');
-    if (!isNaN(breakTime) && breakTime > 0) {
-        enteredTime = parseInt(breakTime);
-        minutes = enteredTime;
-        seconds = 0;
-        clearInterval(timer);
-        startTimer();
-        breakGif1.style.display="block";
-        breakGif2.style.display="block";
-        pauseResumeButton.textContent="وقف";
-        pauseResumeButton.classList.remove("continue");
-        pauseResumeButton.classList.add("paused");
+
+    audio.play().then(() => {
+        // يتم عرض alert بعد تشغيل الصوت بنجاح
+        setTimeout(() => {
+            const breakTime = prompt('بريييك , حدد وقت البريك بالدقائق');
+            if (!isNaN(breakTime) && breakTime > 0) {
+                enteredTime = parseInt(breakTime);
+                minutes = enteredTime;
+                seconds = 0;
+                clearInterval(timer);
+                startTimer();
+                breakGif1.style.display="block";
+                breakGif2.style.display="block";
+                pauseResumeButton.textContent="وقف";
+                pauseResumeButton.classList.remove("continue");
+                pauseResumeButton.classList.add("paused");
+        
+        
+            } else {
+                alert('الرجاء إدخال عدد صحيح من الدقائق أكبر من صفر');
+            }
 
 
-    } else {
-        alert('الرجاء إدخال عدد صحيح من الدقائق أكبر من صفر');
-    }
+
+
+        }, 500); // تأخير نصف ثانية لضمان تشغيل الصوت أولًا
+    }).catch((error) => {
+        console.log("الصوت لم يعمل:", error);
+        alert("waaa"); // عرض alert إذا تعذر تشغيل الصوت
+    });
+    
 }
 
 
@@ -208,12 +240,16 @@ function handleTimerEnd() {
         addTimeToTask();
         helperFlag = false; // صار فولس
         togglePauseResume();
+        // here i should put the sound I think(no)
+        
         startBreak();
     } else {
         togglePauseResume();
         breakFlag = false;
         helperFlag = true;
-        alert("أنتهى البريك إرجع أنجز");
+        // here i should put the sound I think(no)
+         audio.play();
+        //alert("أنتهى البريك إرجع أنجز");
         breakGif1.style.display = "none";
         breakGif2.style.display = "none";
     }
@@ -235,9 +271,7 @@ function togglePauseResume() {
             pauseResumeButton.textContent = 'إبدأ';
             pauseResumeButton.classList.remove("paused");
             pauseResumeButton.classList.add("continue");
-            
-
-            audio.play();
+            // audio.play();
     }
 
     else if(pauseResumeButton.textContent == 'إستمر'){
@@ -325,8 +359,8 @@ function addTimeToTask() {
         // تحديث واجهة المستخدم
         const timerElement = document.getElementById('timer');
         timerElement.textContent = formatTime(minutes, seconds);
-
-        alert(`تم إضافة ${elapsedMinutes} دقيقة إلى المهمة.`);
+        // audio.play();
+       // alert(`تم إضافة ${elapsedMinutes} دقيقة إلى المهمة.`);
         console.log("this is from addtime function "+elapsedTimeInSeconds);
         console.log("this is from addtime function "+elapsedMinutes);
     } else if (elapsedTimeInSeconds < 60) {

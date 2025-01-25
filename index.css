@@ -190,3 +190,28 @@ button.add-task:hover{
 .priority-text {
     font-weight: bold;
 }
+
+
+#breakGif1 {
+    position: absolute;
+    bottom: 333px;
+    right: 188px;
+    width: 368px;
+    height: auto;
+    z-index: 1000;
+    display: none;
+
+}
+#breakGif2 {
+    position: absolute;
+    bottom: 333px;
+    left: 188px;
+    width: 368px;
+    height: auto;
+    z-index: 1000;
+    display: none;
+}
+
+
+  
+  

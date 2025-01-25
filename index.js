@@ -8,7 +8,18 @@ let currentTaskId = null;
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 const pauseResumeButton = document.querySelector('.pause-btn');
 let breakFlag= false;
-var audio = new Audio('sound.mp3');
+let helperFlag=true;
+var audio = new Audio('bell sound.mp3');
+var breakGif1=document.getElementById('breakGif1');
+var breakGif2=document.getElementById('breakGif2');
+
+/*
+الله يستر تعديلات جديده لجعل المؤقت دقيق
+
+*/
+let startTime; // الطابع الزمني عند بدء المؤقت
+let targetTime; // وقت انتهاء العد التنازلي 
+
 
 
 document.getElementById('taskInput').addEventListener('keypress', function (event) {
@@ -118,6 +129,8 @@ function startTask(index) {
         elapsedTimeInSeconds = 0;
         clearInterval(timer);
         startTimer();
+        breakGif1.style.display="none";
+        breakGif2.style.display="none";
         pauseResumeButton.textContent="وقف";
         pauseResumeButton.classList.remove("continue");
         pauseResumeButton.classList.add("paused");
@@ -137,9 +150,12 @@ function startBreak() {
         seconds = 0;
         clearInterval(timer);
         startTimer();
+        breakGif1.style.display="block";
+        breakGif2.style.display="block";
         pauseResumeButton.textContent="وقف";
         pauseResumeButton.classList.remove("continue");
         pauseResumeButton.classList.add("paused");
+
 
     } else {
         alert('الرجاء إدخال عدد صحيح من الدقائق أكبر من صفر');
@@ -150,31 +166,56 @@ function startBreak() {
 
 
 
+
 function updateTimer() {
     const timerElement = document.getElementById('timer');
-    timerElement.textContent = formatTime(minutes, seconds);
+    const now = Date.now(); // الوقت الحالي
+    const remainingTime = targetTime - now; // الوقت المتبقي بالألف من الثانية
 
-    if (minutes === 0 && seconds === 0) {
+    if (remainingTime <= 0) {
         clearInterval(timer);
-        if(breakFlag===false){
-            addTimeToTask();
-            togglePauseResume();
-            startBreak();
-        }
-        else{
-            togglePauseResume(); 
-            breakFlag=false;
-            alert("أنتهى الريك إرجع أنجز")  
-        }
-        
-    } else if (!isPaused) {
-        if (seconds > 0) {
-            seconds--;
-        } else {
-            seconds = 59;
-            minutes--;
-        }
-        elapsedTimeInSeconds++;
+        minutes = 0;
+        seconds = 0;
+        elapsedTimeInSeconds = enteredTime * 60; // تأكد من تحديث الوقت المنقضي بالدقة
+        updateTimerDisplay();
+        handleTimerEnd(); // استدعاء عند انتهاء المؤقت
+        return;
+    }
+
+    // تحديث الدقائق والثواني
+    minutes = Math.floor((remainingTime / 1000) / 60);
+    seconds = Math.floor((remainingTime / 1000) % 60);
+
+    // تحديث الوقت المنقضي بناءً على الفرق
+    elapsedTimeInSeconds = (enteredTime * 60) - Math.floor(remainingTime / 1000);
+
+    // تحديث واجهة المستخدم
+    updateTimerDisplay();
+
+    // طباعة لمساعدتك
+    console.log(`elapsedTimeInSeconds: ${elapsedTimeInSeconds}`);
+}
+
+
+
+function updateTimerDisplay() {
+    const timerElement = document.getElementById('timer');
+    timerElement.textContent = formatTime(minutes, seconds);
+}
+
+function handleTimerEnd() {
+    if (breakFlag === false) {  // هذي الحاله لما ينتهي وقت المهمه الي حطيته
+        addTimeToTask();
+        helperFlag = false; // صار فولس
+        togglePauseResume();
+        startBreak();
+    } else {
+        togglePauseResume();
+        breakFlag = false;
+        helperFlag = true;
+        alert("أنتهى البريك إرجع أنجز");
+        breakGif1.style.display = "none";
+        breakGif2.style.display = "none";
     }
 }
 
@@ -185,7 +226,7 @@ function formatTime(minutes, seconds) {
 function togglePauseResume() {
     console.log("no way")
 
-    if (pauseResumeButton.textContent == 'إبدأ'&& (minutes===0 && seconds===0) ) {
+    if (pauseResumeButton.textContent == 'إبدأ'&& (minutes===0 && seconds===0) && helperFlag===true) {
         alert("إبدأ مهمة كي تحدد الوقت وتبدأ الإنجاز!")
         console.log("shit");
     } 
@@ -194,6 +235,8 @@ function togglePauseResume() {
             pauseResumeButton.textContent = 'إبدأ';
             pauseResumeButton.classList.remove("paused");
             pauseResumeButton.classList.add("continue");
+            
+
             audio.play();
     }
 
@@ -245,6 +288,10 @@ function defaultState(){
         seconds=0;
         const timerElement = document.getElementById('timer');
         timerElement.textContent = formatTime(minutes, seconds);
+        breakGif1.style.display="none";
+        breakGif2.style.display="none";
+        breakFlag=false;
+        helperFlag=true;
 }
 
 function removeFinishButton() {
@@ -254,38 +301,60 @@ function removeFinishButton() {
     }
 }
 
+
+
 function addTimeToTask() {
     if (currentTaskId !== null && elapsedTimeInSeconds >= 60) {
+        // حساب عدد الدقائق المنقضية بشكل دقيق
         const elapsedMinutes = Math.floor(elapsedTimeInSeconds / 60);
+
+        // إضافة الدقائق للمهمة الحالية
         tasks[currentTaskId].timeSpent += elapsedMinutes;
+
+        // حفظ المهام وتحديث القائمة
         saveTasksToLocalStorage();
         updateTaskList();
-        //alert(`تم إضافة ${elapsedMinutes} دقيقة إلى المهمة.`);
+
+        // إعادة تعيين المؤقت والقيم
+        elapsedTimeInSeconds = 0;
         removeFinishButton();
         clearInterval(timer);
-        elapsedTimeInSeconds=0;
-        minutes=0;
-        seconds=0;
+        minutes = 0;
+        seconds = 0;
+
+        // تحديث واجهة المستخدم
         const timerElement = document.getElementById('timer');
         timerElement.textContent = formatTime(minutes, seconds);
+
+        alert(`تم إضافة ${elapsedMinutes} دقيقة إلى المهمة.`);
+        console.log("this is from addtime function "+elapsedTimeInSeconds);
+        console.log("this is from addtime function "+elapsedMinutes);
     } else if (elapsedTimeInSeconds < 60) {
-        alert(' الوقت المنقضي أقل من دقيقة! لذلك لن يتم إضافة الوقت');
+        alert('الوقت المنقضي أقل من دقيقة! لذلك لن يتم إضافة الوقت.');
         removeFinishButton();
         clearInterval(timer);
-        minutes=0;
-        seconds=0;
+        minutes = 0;
+        seconds = 0;
+
+        // إعادة تعيين المؤقت
         const timerElement = document.getElementById('timer');
         timerElement.textContent = formatTime(minutes, seconds);
     }
-    
-   
 }
+
+
+
 
 
 
 
 function startTimer() {
-    timer = setInterval(updateTimer, 1000);
+    startTime = Date.now();
+    targetTime = startTime + (minutes * 60 + seconds) * 1000; // وقت الانتهاء بناءً على مدة المؤقت
+    timer = setInterval(updateTimer, 1000); // تحديث كل ثانية
 }
 
 updateTaskList();
+
+
+

@@ -68,6 +68,32 @@ document.getElementById('taskInput').addEventListener('keypress', function (even
     }
 });
 
+function addTask() {
+    const taskInput = document.getElementById('taskInput');
+    const taskName = taskInput.value.trim();
+    if (taskName) {
+        const newTask = {
+            name: taskName,
+            timeSpent: 0,
+            completed: false,
+        };
+        tasks.push(newTask);
+        taskInput.value = '';
+        saveTasksToLocalStorage();
+        updateTaskList();
+    } else {
+        
+        modalMessageAlert.textContent = 'يرجى إدخال اسم المهمة';
+        modalCancelBtnAlert.style.display = 'none';
+        if(modalCancelBtnAlert.style.display === 'none'){
+            modalOkBtnAlert.style.width = '50%';
+            modalOkBtnAlert.style.margin = '0 auto';   
+        }
+        modalAlert.style.display = 'block';
+
+    }
+}
+
 function updateTaskList() {
     const taskListElement = document.getElementById('taskList');
     taskListElement.innerHTML = '';
@@ -124,10 +150,6 @@ function markTaskComplete(index) {
 function adjustTaskTime(index) {
     console.log("يامجنووووون")
     const task = tasks[index];
-
-
-
-
 
     // const adjustment = prompt(`الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`);
      // Set prompt message and default input value
@@ -212,31 +234,7 @@ function saveTasksToLocalStorage() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-function addTask() {
-    const taskInput = document.getElementById('taskInput');
-    const taskName = taskInput.value.trim();
-    if (taskName) {
-        const newTask = {
-            name: taskName,
-            timeSpent: 0,
-            completed: false,
-        };
-        tasks.push(newTask);
-        taskInput.value = '';
-        saveTasksToLocalStorage();
-        updateTaskList();
-    } else {
-        
-        modalMessageAlert.textContent = 'يرجى إدخال اسم المهمة';
-        modalCancelBtnAlert.style.display = 'none';
-        if(modalCancelBtnAlert.style.display === 'none'){
-            modalOkBtnAlert.style.width = '50%';
-            modalOkBtnAlert.style.margin = '0 auto';   
-        }
-        modalAlert.style.display = 'block';
 
-    }
-}
 
 function deleteTask(index) {
     tasks.splice(index, 1);
@@ -296,19 +294,11 @@ function startTask(index) {
           
         //   promptOkBtn.addEventListener('click', handleOk);
         promptOkBtn.addEventListener("click", function (event) {
-            audio.play().then(() => { // pause directly
-                audio.pause();
-                audio.currentTime = 0;
-              });
-            handleOk();
+         modalAlert.style.display = 'none';;
          });
           promptInput.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 console.log("from work")
-                audio.play().then(() => { // pause directly
-                    audio.pause();
-                    audio.currentTime = 0;
-                  });
                 handleOk();
             }
           });
@@ -461,9 +451,6 @@ function handleTimerEnd() {
         togglePauseResume();
         breakFlag = false;
         helperFlag = true;
-        // here i should put the sound I think(no)
-        audio.play();
-        
         breakGif1.style.display = "none";
         breakGif2.style.display = "none";
     }
@@ -614,16 +601,6 @@ function startTimer() {
     timer = setInterval(updateTimer, 1000); // تحديث كل ثانية
 }
 
-btn.onclick = e => {
-    // mark our audio element as approved by the user
-    audio.play().then(() => { // pause directly
-      audio.pause();
-      audio.currentTime = 0;
-      console.log("audio test btn is works!(hopefully)")
-    });
-    
-    btn.disabled = true;
-  };
 
 
 
@@ -631,7 +608,8 @@ btn.onclick = e => {
 
 
 
-updateTaskList();
+
+updateTaskList(); // تحديث قائمة المهام عند تحميل الصفحة
 
 
 

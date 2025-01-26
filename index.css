@@ -15,6 +15,10 @@ body{
     margin-right: 10px;
     font-size: 16px;
 }
+#taskInput:focus {
+    outline: none;
+}
+
 
 ul {
     list-style-type: none;
@@ -36,8 +40,17 @@ li {
 
 span.task-time{
     margin-top: 2px;
+    /* new things : */
+    
+    cursor: pointer;
+    position: absolute;
+    right: 308px;
 }
 
+span.task-time:hover{
+    color: blue;
+
+}
 span.task-name{
     margin-top: 2px;
 }
@@ -49,7 +62,7 @@ span.task-name{
  */
 
 button {
-    background-color: green;
+    background-color: darkgreen;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -60,6 +73,10 @@ button {
 
 button:hover {
     background-color: #141414;
+}
+
+button.add-task{
+    margin-right: 7px;
 }
 
 button.add-task:hover{
@@ -189,6 +206,19 @@ button.add-task:hover{
 
 .priority-text {
     font-weight: bold;
+    position: absolute;
+    right: 691px;
+}
+
+/* تنسيق أزرار الأولوية */
+.priority-buttons {
+    position: absolute;
+    right: 507px;
+}
+
+ .priority-btn {
+    background-color: darkslategrey;
+    ;
 }
 
 
@@ -217,3 +247,64 @@ button.add-task:hover{
     text-decoration: line-through;
     color: gray;
 }
+
+
+
+
+.complete-btnS {
+    position: absolute;
+    left: 106px;
+}
+
+.start-btnS {
+    position: absolute;
+    left: 357px;
+}
+
+.start-btn{
+        
+        position: absolute;
+        left: 356px;
+}
+
+/* modals : */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+
+

@@ -13,6 +13,7 @@ var audio = new Audio('bell sound.mp3');
 var breakGif1=document.getElementById('breakGif1');
 var breakGif2=document.getElementById('breakGif2');
 
+
 /*
 الله يستر تعديلات جديده لجعل المؤقت دقيق
 
@@ -39,14 +40,16 @@ function updateTaskList() {
         const li = document.createElement('li');
         li.innerHTML = `
             <span class="task-name ${taskClass}">${task.name}</span> 
-            <span class="task-name">${task.name}</span> 
-            <span class="task-time">${taskTime}</span>
-            <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
-            <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
-            <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
-            <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
-            <button onclick="startTask(${index})">بدأ</button>
-            ${!task.completed ? `<button class="complete-btn" onclick="markTaskComplete(${index})">تم</button>` : ''}
+             
+            <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
+   <div class="priority-buttons">
+        <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
+        <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
+        <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
+        <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
+    </div>
+            <button class="start-btn" onclick="startTask(${index})">بدأ</button>
+            
             <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
      
         `;
@@ -58,11 +61,11 @@ function updateTaskList() {
             li.innerHTML = `
             <span class="task-name ${taskClass}">${task.name}</span> 
                 
-                <span class="task-time">${taskTime}</span>
+            <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
                 <span class="priority-text">${priorityText}</span>
-                <button onclick="startTask(${index})">بدأ</button>
-            ${!task.completed ? `<button class="complete-btn" onclick="markTaskComplete(${index})">تم</button>` : ''}
-                <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
+                <button class="start-btnS" onclick="startTask(${index})">بدأ</button>
+            ${!task.completed ? `<button class="complete-btnS" onclick="markTaskComplete(${index})">تم</button>` : ''}
+                <button class="delete-btnS" onclick="deleteTask(${index})">حذف</button>
                 
                 
             `;
@@ -74,7 +77,35 @@ function markTaskComplete(index) {
     tasks[index].completed = !tasks[index].completed; // تبديل حالة الإكمال
     saveTasksToLocalStorage(); // حفظ المهام في التخزين المحلي
     updateTaskList(); // إعادة تحديث قائمة المهام
+    
 }
+
+
+
+function adjustTaskTime(index) {
+    console.log("يامجنووووون")
+    const task = tasks[index];
+    const adjustment = prompt(`الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`);
+    
+    if (adjustment) {
+        const adjustmentValue = parseInt(adjustment); // تحويل المدخل إلى رقم
+        if (!isNaN(adjustmentValue)) {
+            // تعديل الوقت بناءً على المدخل
+            const newTime = task.timeSpent + adjustmentValue;
+            if (newTime >= 0) {
+                task.timeSpent = newTime;
+                saveTasksToLocalStorage(); // حفظ التعديلات
+                updateTaskList(); // تحديث واجهة المستخدم
+                alert(`تم تعديل الوقت إلى ${task.timeSpent} دقيقة.`);
+            } else {
+                alert('لا يمكن أن يكون الوقت أقل من صفر.');
+            }
+        } else {
+            alert('الرجاء إدخال قيمة صحيحة (مثل +10 أو -10).');
+        }
+    }
+}
+
 
 
 
@@ -136,8 +167,13 @@ function startTask(index) {
     currentTaskId = index;
     const task = tasks[currentTaskId];
     const newTimeInMinutes = prompt(`كم مدة إنجازك في المهمة "${task.name}" بالدقائق؟`);
+
+     // التحقق مما إذا ضغط المستخدم على "إلغاء"
+     if (newTimeInMinutes === null) {
+        return; // إيقاف الدالة إذا تم الضغط على "إلغاء"
+    }
     
-    if (!isNaN(newTimeInMinutes) && newTimeInMinutes > 0) {
+    if (!isNaN(newTimeInMinutes) && newTimeInMinutes >= 1) {
         enteredTime = parseInt(newTimeInMinutes);
         minutes = enteredTime;
         seconds = 0;
@@ -152,7 +188,7 @@ function startTask(index) {
         pauseResumeButton.classList.add("paused");
 
     } else {
-        alert('الرجاء إدخال عدد صحيح من الدقائق أكبر من صفر');
+        alert('الرجاء إدخال عدد صحيح من الدقائق أكبر من أو يساوي واحد');
     }
 }
 
@@ -160,13 +196,20 @@ function startTask(index) {
 function startBreak() {
     // ??
     
-    breakFlag=true;
-
-    audio.play().then(() => {
-        // يتم عرض alert بعد تشغيل الصوت بنجاح
-        setTimeout(() => {
+    audio.play();
+        
+    
             const breakTime = prompt('بريييك , حدد وقت البريك بالدقائق');
-            if (!isNaN(breakTime) && breakTime > 0) {
+          
+             // التحقق مما إذا ضغط المستخدم على "إلغاء"
+             if (breakTime === null) {
+                defaultState();
+
+                return; // إيقاف الدالة إذا تم الضغط على "إلغاء"
+            }
+    
+            if (!isNaN(breakTime) && breakTime >= 1) {
+                breakFlag=true;
                 enteredTime = parseInt(breakTime);
                 minutes = enteredTime;
                 seconds = 0;
@@ -183,14 +226,6 @@ function startBreak() {
                 alert('الرجاء إدخال عدد صحيح من الدقائق أكبر من صفر');
             }
 
-
-
-
-        }, 500); // تأخير نصف ثانية لضمان تشغيل الصوت أولًا
-    }).catch((error) => {
-        console.log("الصوت لم يعمل:", error);
-        alert("waaa"); // عرض alert إذا تعذر تشغيل الصوت
-    });
     
 }
 
@@ -241,7 +276,6 @@ function handleTimerEnd() {
         helperFlag = false; // صار فولس
         togglePauseResume();
         // here i should put the sound I think(no)
-        
         startBreak();
     } else {
         togglePauseResume();
@@ -325,7 +359,7 @@ function defaultState(){
         breakGif1.style.display="none";
         breakGif2.style.display="none";
         breakFlag=false;
-        helperFlag=true;
+        helperFlag=true; // عشان اذا ضغطت ابدا فالبدايه مايستهبل
 }
 
 function removeFinishButton() {

@@ -12,6 +12,7 @@ let helperFlag=true;
 var audio = new Audio('bell sound.mp3');
 var breakGif1=document.getElementById('breakGif1');
 var breakGif2=document.getElementById('breakGif2');
+var myHero=document.getElementById('hero');
 // Modal for prompt 1
 const modalOverlay = document.getElementById('modalOverlay');
 const promptModal = document.getElementById('promptModal');
@@ -340,7 +341,8 @@ function startTask(index) {
 
 
 function startBreak() {
-    audio.play();    
+    myHero.play();
+      
     breakFlag=true;
 
            
@@ -467,12 +469,14 @@ function handleTimerEnd() {
         console.log("hello sweitty")
         startBreak();
         
+        
     } else {
         togglePauseResume();
         breakFlag = false;
         helperFlag = true;
         breakGif1.style.display = "none";
         breakGif2.style.display = "none";
+        myHero.play();
     }
 }
 

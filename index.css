@@ -360,6 +360,8 @@ button.add-task:hover{
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     animation: fadeIn 0.3s ease-in-out;
+    position: absolute;
+    top: -410px;
 }
 
 /* Modal message text */
@@ -400,6 +402,17 @@ button.add-task:hover{
     background-color: #e03e4e;
 }
 
+/* 
+
+HHHHHHHHHHHHeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrooooooooooooooooooooooooooooooooooooo
+*/
+
+#hero{
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
 /* Fade-in animation */
 @keyframes fadeIn {
     from {
@@ -410,7 +423,7 @@ button.add-task:hover{
         opacity: 1;
         transform: scale(1);
     }
-}
+}  
 
 
 

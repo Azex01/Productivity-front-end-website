@@ -46,16 +46,15 @@ const modalCancelBtnAlert = document.getElementById("customModalCancelBtn"); // 
 modalOkBtnAlert.onclick = function() {
     modalAlert.style.display = 'none';
 };
+
 //
 // document.addEventListener("click", function (event) {
 //     modalAlert.style.display = 'none';;
-// });
+// }); 
+// may you need to add طبقه شفافه اذا ضغطت في اي مكان عليها تختفي الطبقه السوداء ويختفي الاليرت
 
 
-/*
-الله يستر تعديلات جديده لجعل المؤقت دقيق
 
-*/
 let startTime; // الطابع الزمني عند بدء المؤقت
 let targetTime; // وقت انتهاء العد التنازلي 
 
@@ -75,7 +74,7 @@ function addTask() {
         const newTask = {
             name: taskName,
             timeSpent: 0,
-            completed: false,
+            completed: false
         };
         tasks.push(newTask);
         taskInput.value = '';
@@ -119,15 +118,16 @@ function updateTaskList() {
         `;
         taskListElement.appendChild(li);
 
-        // Apply the saved priority text if exists
+        //Apply the saved priority text if exists
         if (task.priority) {
-            const priorityText = getPriorityText(task.priority);
+            let prioritySpan = getPrioritySpan(task.priority);
+            
+
             li.innerHTML = `
             <span class="task-name ${taskClass}">${task.name}</span> 
                 
             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
-                <span class="priority-text">${priorityText}</span>
-                
+            ${prioritySpan} 
                 <button class="start-btnS" onclick="startTask(${index})">بدأ</button>
             ${!task.completed ? `<button class="complete-btnS" onclick="markTaskComplete(${index})">تم</button>` : ''}
                 <button class="delete-btnS" onclick="deleteTask(${index})">حذف</button>
@@ -135,6 +135,9 @@ function updateTaskList() {
                 
             `;
         }
+
+
+        
     });
 }
 
@@ -218,6 +221,23 @@ function getPriorityText(priorityClass) {
             return '';
     }
 }
+
+function getPrioritySpan(priorityClass) {
+    switch (priorityClass) {
+      case 'urgent-important':
+        return `<span class="priority-text urgent-important">عاجل ومهم</span>`;
+      case 'urgent-not-important':
+        return `<span class="priority-text urgent-not-important">عاجل وغير مهم</span>`;
+      case 'not-urgent-important':
+        return `<span class="priority-text not-urgent-important">غير عاجل ومهم</span>`;
+      case 'not-urgent-not-important':
+        return `<span class="priority-text not-urgent-not-important">غير عاجل وغير مهم</span>`;
+      default:
+        return '';
+    }
+  }
+  
+
 
 function setPriority(index, priorityClass) {
     const task = tasks[index];

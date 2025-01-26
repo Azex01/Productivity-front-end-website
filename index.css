@@ -209,6 +209,28 @@ button.add-task:hover{
     position: absolute;
     right: 691px;
 }
+.priority-text.urgent-important {
+    color: #B71C1C;
+  }
+  .priority-text.urgent-not-important {
+    color: #FF9800;
+  }
+  .priority-text.not-urgent-important {
+    color: #009688;
+  }
+  .priority-text.not-urgent-not-important {
+    color: #9E9E9E;
+  }
+  
+
+
+
+
+
+
+
+
+
 
 /* تنسيق أزرار الأولوية */
 .priority-buttons {

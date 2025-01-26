@@ -29,26 +29,83 @@
             <img id="breakGif1" src="https://i.gifer.com/15wQ.gif" alt="Motivational GIF" >
             <img id="breakGif2" src="https://i.gifer.com/15wQ.gif" alt="Motivational GIF" >
 
-            <div id="custom-modal" class="modal hidden">
-                <div class="modal-content">
-                    <span id="modal-message"></span>
-                    <input id="modal-input" type="text" class="hidden" placeholder="Type here..." />
-                    <div class="modal-buttons">
-                        <button id="modal-confirm-btn">Confirm</button>
-                        <button id="modal-cancel-btn">Cancel</button>
-                    </div>
-                </div>
-            </div>
-            
           
-        
         <div class="todo-container">
             <h2 style="color: white;">قائمة المهام</h2>
             <input type="text" id="taskInput" placeholder="أضف مهمة جديدة">
             <button class="add-task" onclick="addTask()">أضف مهمة</button>
             <ul id="taskList"></ul>
         </div>
+
+         
+
+        <!-- Prompt1 Modal -->
+        <div id="modalOverlay" class="modal-overlay" style="display: none;">
+        <div id="promptModal" class="modal" style="display: none;">
+            <p id="promptMessage"></p>
+            <input type="text" id="promptInput">
+            <div class="modal-buttons">
+                <button id="promptOkBtn">موافق</button>
+                <!-- <button id="promptOkBtn2">موافق</button> -->
+
+                <button id="promptCancelBtn">إلغاء</button>
+            </div>
+
+        </div>
     </div>
+     <!-- Prompt2 Modal -->
+    <div id="modalOverlayForBreak" class="modal-overlay" style="display: none;">
+        <div id="promptModalForBreak" class="modal" style="display: none;">
+            <p id="promptMessageForBreak"></p>
+            <input type="text" id="promptInputForBreak">
+            <div class="modal-buttons">
+                <button id="promptOkBtnForBreak">موافق</button>
+              
+
+                <button id="promptCancelBtnForBreak">إلغاء</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Prompt3 Modal -->
+    <div id="modalOverlayForAdjusment" class="modal-overlay" style="display: none;">
+        <div id="promptModalForAdjusment" class="modal" style="display: none;">
+            <p id="promptMessageForAdjusment"></p>
+            <input type="text" id="promptInputForAdjusment">
+            <div class="modal-buttons">
+                <button id="promptOkBtnForAdjusment">موافق</button>
+              
+
+                <button id="promptCancelBtnForAdjusment">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- now modal for alert -->
+
+    <!-- Modal Structure -->
+<div id="customModal" class="custom-modal-overlay" style="display: none;">
+    <div class="custom-modal">
+        <p id="customModalMessage" class="custom-modal-message">This is a modal message!</p>
+        <div class="custom-modal-buttons">
+            <button id="customModalOkBtn" class="custom-modal-button">موافق</button>
+            <button id="customModalCancelBtn" class="custom-modal-button">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+        <button id="btn">شغل الصوت يبن الحلال</button>
+
+
+
+    </div>
+
+
+
+
+    
 
     <script src="index.js"></script>
 </body>

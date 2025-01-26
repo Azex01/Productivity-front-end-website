@@ -12,6 +12,44 @@ let helperFlag=true;
 var audio = new Audio('bell sound.mp3');
 var breakGif1=document.getElementById('breakGif1');
 var breakGif2=document.getElementById('breakGif2');
+// Modal for prompt 1
+const modalOverlay = document.getElementById('modalOverlay');
+const promptModal = document.getElementById('promptModal');
+const promptMessage = document.getElementById('promptMessage');
+const promptInput = document.getElementById('promptInput');
+const promptOkBtn = document.getElementById('promptOkBtn');
+const promptCancelBtn = document.getElementById('promptCancelBtn');
+// Modal for prompt 2
+const modalOverlayForBreak = document.getElementById('modalOverlayForBreak');
+const promptModalForBreak = document.getElementById('promptModalForBreak');
+const promptMessageForBreak = document.getElementById('promptMessageForBreak');
+const promptInputForBreak = document.getElementById('promptInputForBreak');
+const promptOkBtnForBreak = document.getElementById('promptOkBtnForBreak');
+const promptCancelBtnForBreak = document.getElementById('promptCancelBtnForBreak');
+
+// Modal for prompt 2
+const modalOverlayForAdjusment = document.getElementById('modalOverlayForAdjusment');
+const promptModalForAdjusment = document.getElementById('promptModalForAdjusment');
+const promptMessageForAdjusment = document.getElementById('promptMessageForAdjusment');
+const promptInputForAdjusment = document.getElementById('promptInputForAdjusment');
+const promptOkBtnForAdjusment = document.getElementById('promptOkBtnForAdjusment');
+const promptCancelBtnForAdjusment = document.getElementById('promptCancelBtnForAdjusment');
+
+//modal for alert :
+
+const modalAlert = document.getElementById("customModal"); // The modal overlay
+const modalMessageAlert = document.getElementById("customModalMessage"); // The modal message
+const modalOkBtnAlert = document.getElementById("customModalOkBtn"); // OK button
+const modalCancelBtnAlert = document.getElementById("customModalCancelBtn"); // Cancel button
+
+// this is the golden clear key
+modalOkBtnAlert.onclick = function() {
+    modalAlert.style.display = 'none';
+};
+//
+// document.addEventListener("click", function (event) {
+//     modalAlert.style.display = 'none';;
+// });
 
 
 /*
@@ -63,6 +101,7 @@ function updateTaskList() {
                 
             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
                 <span class="priority-text">${priorityText}</span>
+                
                 <button class="start-btnS" onclick="startTask(${index})">بدأ</button>
             ${!task.completed ? `<button class="complete-btnS" onclick="markTaskComplete(${index})">تم</button>` : ''}
                 <button class="delete-btnS" onclick="deleteTask(${index})">حذف</button>
@@ -85,25 +124,59 @@ function markTaskComplete(index) {
 function adjustTaskTime(index) {
     console.log("يامجنووووون")
     const task = tasks[index];
-    const adjustment = prompt(`الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`);
-    
-    if (adjustment) {
-        const adjustmentValue = parseInt(adjustment); // تحويل المدخل إلى رقم
-        if (!isNaN(adjustmentValue)) {
-            // تعديل الوقت بناءً على المدخل
-            const newTime = task.timeSpent + adjustmentValue;
-            if (newTime >= 0) {
-                task.timeSpent = newTime;
-                saveTasksToLocalStorage(); // حفظ التعديلات
-                updateTaskList(); // تحديث واجهة المستخدم
-                alert(`تم تعديل الوقت إلى ${task.timeSpent} دقيقة.`);
+
+
+
+
+
+    // const adjustment = prompt(`الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`);
+     // Set prompt message and default input value
+     let adjustment="";
+     promptMessageForAdjusment.textContent = `الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`;
+           
+       
+     // Show the prompt modal
+     modalOverlayForAdjusment.style.display = 'flex';
+     promptModalForAdjusment.style.display = 'block';
+     
+     promptInputForAdjusment.focus();
+
+    promptOkBtnForAdjusment.onclick = function() {
+        console.log("hello world");
+        
+        adjustment= promptInputForAdjusment.value;
+        console.log(adjustment);
+            const adjustmentValue = parseInt(adjustment); // تحويل المدخل إلى رقم
+            if (!isNaN(adjustmentValue)) {
+                // تعديل الوقت بناءً على المدخل
+                const newTime = task.timeSpent + adjustmentValue;
+                if (newTime >= 0) {
+                    task.timeSpent = newTime;
+                    saveTasksToLocalStorage(); // حفظ التعديلات
+                    updateTaskList(); // تحديث واجهة المستخدم
+                    promptMessageForAdjusment.textContent = `تم تعديل الوقت إلى ${task.timeSpent} دقيقة.`; // convert it to alert
+                    modalOverlayForAdjusment.style.display = 'none';
+                    promptInputForAdjusment.value = '';
+                    
+                } else {
+                    promptMessageForAdjusment.textContent = 'لا يمكن أن يكون الوقت أقل من صفر.';
+                    
+                }
             } else {
-                alert('لا يمكن أن يكون الوقت أقل من صفر.');
+                promptMessageForAdjusment.textContent = 'الرجاء إدخال قيمة صحيحة (مثل +10 أو -10).';
+                
             }
-        } else {
-            alert('الرجاء إدخال قيمة صحيحة (مثل +10 أو -10).');
-        }
+        
     }
+    promptCancelBtnForAdjusment.onclick = function() {
+        modalOverlayForAdjusment.style.display = 'none';
+        promptModalForAdjusment.style.display = 'none';
+        promptInputForAdjusment.value = '';
+    }
+
+
+
+    
 }
 
 
@@ -153,7 +226,15 @@ function addTask() {
         saveTasksToLocalStorage();
         updateTaskList();
     } else {
-        alert('يرجى إدخال اسم المهمة');
+        
+        modalMessageAlert.textContent = 'يرجى إدخال اسم المهمة';
+        modalCancelBtnAlert.style.display = 'none';
+        if(modalCancelBtnAlert.style.display === 'none'){
+            modalOkBtnAlert.style.width = '50%';
+            modalOkBtnAlert.style.margin = '0 auto';   
+        }
+        modalAlert.style.display = 'block';
+
     }
 }
 
@@ -164,70 +245,168 @@ function deleteTask(index) {
 }
 
 function startTask(index) {
+    
     currentTaskId = index;
     const task = tasks[currentTaskId];
-    const newTimeInMinutes = prompt(`كم مدة إنجازك في المهمة "${task.name}" بالدقائق؟`);
-
-     // التحقق مما إذا ضغط المستخدم على "إلغاء"
-     if (newTimeInMinutes === null) {
-        return; // إيقاف الدالة إذا تم الضغط على "إلغاء"
-    }
     
-    if (!isNaN(newTimeInMinutes) && newTimeInMinutes >= 1) {
-        enteredTime = parseInt(newTimeInMinutes);
-        minutes = enteredTime;
-        seconds = 0;
-        isPaused = false;
-        elapsedTimeInSeconds = 0;
-        clearInterval(timer);
-        startTimer();
-        breakGif1.style.display="none";
-        breakGif2.style.display="none";
-        pauseResumeButton.textContent="وقف";
-        pauseResumeButton.classList.remove("continue");
-        pauseResumeButton.classList.add("paused");
 
-    } else {
-        alert('الرجاء إدخال عدد صحيح من الدقائق أكبر من أو يساوي واحد');
-    }
-}
+    
+       
+           // Set prompt message and default input value
+           promptMessage.textContent = `كم مدة إنجازك في المهمة "${task.name}" بالدقائق؟`;
+           
+       
+           // Show the prompt modal
+           modalOverlay.style.display = 'flex';
+           promptModal.style.display = 'block';
+           promptInput.focus();
+
+
+           function handleOk() {
+            // the code that should run on OK
+            const newTimeInMinutes = promptInput.value;
+            console.log("nice")
+        
+            if (!isNaN(newTimeInMinutes) && newTimeInMinutes >= 1) {
+                modalOverlay.style.display = 'none';
+                promptModal.style.display = 'none';
+                
+                modalOverlay.style.display = 'none';
+                promptModal.style.display = 'none';
+                enteredTime = parseInt(newTimeInMinutes);
+                minutes = enteredTime;
+                seconds = 0;
+                isPaused = false;
+                elapsedTimeInSeconds = 0;
+                clearInterval(timer);
+                startTimer();
+                console.log("breakGif1 in ST is : "+breakGif1.style.display);
+                console.log("breakGif2 in ST is : "+breakGif2.style.display);
+                breakGif1.style.display="none";
+                breakGif2.style.display="none";
+                pauseResumeButton.textContent="وقف";
+                pauseResumeButton.classList.remove("continue");
+                pauseResumeButton.classList.add("paused");
+                promptInput.value = '';
+
+            } else {
+                promptMessage.textContent = "لازم دقيقة واحدة على الأقل";
+            }
+          }
+          
+        //   promptOkBtn.addEventListener('click', handleOk);
+        promptOkBtn.addEventListener("click", function (event) {
+            audio.play().then(() => { // pause directly
+                audio.pause();
+                audio.currentTime = 0;
+              });
+            handleOk();
+         });
+          promptInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                console.log("from work")
+                audio.play().then(() => { // pause directly
+                    audio.pause();
+                    audio.currentTime = 0;
+                  });
+                handleOk();
+            }
+          });
+          
+           
+
+                // When Cancel is clicked
+           promptCancelBtn.onclick = function() {
+            modalOverlay.style.display = 'none';
+            promptModal.style.display = 'none';
+            promptInput.value = '';
+            defaultState();
+            
+        };
+
+
+
+           }
 
 
 function startBreak() {
-    // ??
-    
-    audio.play();
-        
-    
-            const breakTime = prompt('بريييك , حدد وقت البريك بالدقائق');
-          
-             // التحقق مما إذا ضغط المستخدم على "إلغاء"
-             if (breakTime === null) {
-                defaultState();
+    audio.play();    
+    breakFlag=true;
 
-                return; // إيقاف الدالة إذا تم الضغط على "إلغاء"
-            }
-    
-            if (!isNaN(breakTime) && breakTime >= 1) {
-                breakFlag=true;
+           
+            console.log("I can not do it any more")
+           promptMessageForBreak.textContent = "حدد وقت البريك بالدقائق";
+           modalOverlayForBreak.style.display = 'flex';
+           promptModalForBreak.style.display = 'block';
+           promptInputForBreak.focus();
+           promptInputForBreak.value = '';
+
+          
+           
+            
+           function handleOk2() {
+            let breakTime = promptInputForBreak.value;
+            console.log("break time is 1 "+breakTime);
+            // the code that should run on OK
+            
+            
+                if (!isNaN(breakTime) && breakTime >= 1) {
+                console.log("مرحبا بكم في العاب العقل")
+
+                modalOverlayForBreak.style.display = 'none';
+                promptModalForBreak.style.display = 'none';
+                
+                // modalOverlayForBreak.style.display = 'none';
+                // promptModalForBreak.style.display = 'none';
+                
                 enteredTime = parseInt(breakTime);
                 minutes = enteredTime;
                 seconds = 0;
                 clearInterval(timer);
                 startTimer();
-                breakGif1.style.display="block";
-                breakGif2.style.display="block";
+                console.log("(before)breakGif1 in BT is : "+breakGif1.style.display);
+                console.log("(before)breakGif2 in BT is : "+breakGif2.style.display);
+                
+                console.log("(after)breakGif1 in BT is : "+breakGif1.style.display);
+                console.log("(after)breakGif2 in BT is : "+breakGif2.style.display);
                 pauseResumeButton.textContent="وقف";
                 pauseResumeButton.classList.remove("continue");
                 pauseResumeButton.classList.add("paused");
-        
-        
-            } else {
-                alert('الرجاء إدخال عدد صحيح من الدقائق أكبر من صفر');
-            }
+                promptInputForBreak.value = '';
+                }
+            
+                  else {
+                promptMessageForBreak.textContent = "لازم دقيقة واحدة على الأقل";
+                console.log("yes I am working");
 
-    
-}
+            }
+          
+        }   
+        
+          promptOkBtnForBreak.addEventListener('click', handleOk2);
+          promptInputForBreak.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                console.log("from break")
+              handleOk2();
+              breakGif1.style.display="block";
+              breakGif2.style.display="block";
+            }
+          }); 
+        
+         
+          
+               
+           
+           // When Cancel is clicked
+           promptCancelBtnForBreak.onclick = function() {
+               modalOverlayForBreak.style.display = 'none';
+               promptModalForBreak.style.display = 'none';
+               promptInputForBreak.value = '';
+               defaultState();
+               
+           };
+
+        }
 
 
 
@@ -275,15 +454,16 @@ function handleTimerEnd() {
         addTimeToTask();
         helperFlag = false; // صار فولس
         togglePauseResume();
-        // here i should put the sound I think(no)
+        console.log("hello sweitty")
         startBreak();
+        
     } else {
         togglePauseResume();
         breakFlag = false;
         helperFlag = true;
         // here i should put the sound I think(no)
-         audio.play();
-        //alert("أنتهى البريك إرجع أنجز");
+        audio.play();
+        
         breakGif1.style.display = "none";
         breakGif2.style.display = "none";
     }
@@ -294,18 +474,29 @@ function formatTime(minutes, seconds) {
 }
 
 function togglePauseResume() {
-    console.log("no way")
+    
 
     if (pauseResumeButton.textContent == 'إبدأ'&& (minutes===0 && seconds===0) && helperFlag===true) {
-        alert("إبدأ مهمة كي تحدد الوقت وتبدأ الإنجاز!")
-        console.log("shit");
+        
+        modalMessageAlert.textContent = "إبدأ مهمة كي تحدد الوقت وتبدأ الإنجاز!";
+        modalAlert.style.display = 'block';
+       
+        modalCancelBtnAlert.style.display = 'none';
+        if(modalCancelBtnAlert.style.display === 'none'){
+            modalOkBtnAlert.style.width = '50%';
+            modalOkBtnAlert.style.margin = '0 auto'; 
+        }
+        
+       
+
+        
     } 
 
     else if(pauseResumeButton.textContent == 'وقف'&& (minutes==0 && seconds===0)){
             pauseResumeButton.textContent = 'إبدأ';
             pauseResumeButton.classList.remove("paused");
             pauseResumeButton.classList.add("continue");
-            // audio.play();
+            
     }
 
     else if(pauseResumeButton.textContent == 'إستمر'){
@@ -393,12 +584,19 @@ function addTimeToTask() {
         // تحديث واجهة المستخدم
         const timerElement = document.getElementById('timer');
         timerElement.textContent = formatTime(minutes, seconds);
-        // audio.play();
-       // alert(`تم إضافة ${elapsedMinutes} دقيقة إلى المهمة.`);
+       
         console.log("this is from addtime function "+elapsedTimeInSeconds);
         console.log("this is from addtime function "+elapsedMinutes);
     } else if (elapsedTimeInSeconds < 60) {
-        alert('الوقت المنقضي أقل من دقيقة! لذلك لن يتم إضافة الوقت.');
+       
+        modalMessageAlert.textContent = "الوقت المنقضي أقل من دقيقة! لذلك لن يتم إضافة الوقت.";
+        modalAlert.style.display = 'block';
+       
+        modalCancelBtnAlert.style.display = 'none';
+        if(modalCancelBtnAlert.style.display === 'none'){
+            modalOkBtnAlert.style.width = '50%';
+            modalOkBtnAlert.style.margin = '0 auto'; 
+        }
         removeFinishButton();
         clearInterval(timer);
         minutes = 0;
@@ -410,17 +608,28 @@ function addTimeToTask() {
     }
 }
 
-
-
-
-
-
-
 function startTimer() {
     startTime = Date.now();
     targetTime = startTime + (minutes * 60 + seconds) * 1000; // وقت الانتهاء بناءً على مدة المؤقت
     timer = setInterval(updateTimer, 1000); // تحديث كل ثانية
 }
+
+btn.onclick = e => {
+    // mark our audio element as approved by the user
+    audio.play().then(() => { // pause directly
+      audio.pause();
+      audio.currentTime = 0;
+      console.log("audio test btn is works!(hopefully)")
+    });
+    
+    btn.disabled = true;
+  };
+
+
+
+
+
+
 
 updateTaskList();
 

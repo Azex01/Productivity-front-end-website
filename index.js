@@ -13,6 +13,7 @@ var audio = new Audio('bell sound.mp3');
 var breakGif1=document.getElementById('breakGif1');
 var breakGif2=document.getElementById('breakGif2');
 var myHero=document.getElementById('hero');
+
 // Modal for prompt 1
 const modalOverlay = document.getElementById('modalOverlay');
 const promptModal = document.getElementById('promptModal');
@@ -102,6 +103,9 @@ function updateTaskList() {
         const taskTime = convertToMinutes(task.timeSpent);
         const taskClass = task.completed ? 'completed-task' : '';
         const li = document.createElement('li');
+        
+       
+        
         li.innerHTML = `
             <span class="task-name ${taskClass}">${task.name}</span> 
              
@@ -118,12 +122,14 @@ function updateTaskList() {
      
         `;
         taskListElement.appendChild(li);
+         // amm :
+        
 
         //Apply the saved priority text if exists
         if (task.priority) {
             let prioritySpan = getPrioritySpan(task.priority);
             
-
+            
             li.innerHTML = `
             <span class="task-name ${taskClass}">${task.name}</span> 
                 
@@ -135,7 +141,8 @@ function updateTaskList() {
                 
                 
             `;
-        }
+        }       
+       
 
 
         
@@ -148,63 +155,6 @@ function markTaskComplete(index) {
     updateTaskList(); // إعادة تحديث قائمة المهام
     
 }
-
-
-
-function adjustTaskTime(index) {
-    console.log("يامجنووووون")
-    const task = tasks[index];
-
-    // const adjustment = prompt(`الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`);
-     // Set prompt message and default input value
-     let adjustment="";
-     promptMessageForAdjusment.textContent = `الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`;
-           
-       
-     // Show the prompt modal
-     modalOverlayForAdjusment.style.display = 'flex';
-     promptModalForAdjusment.style.display = 'block';
-     
-     promptInputForAdjusment.focus();
-
-    promptOkBtnForAdjusment.onclick = function() {
-        console.log("hello world");
-        
-        adjustment= promptInputForAdjusment.value;
-        console.log(adjustment);
-            const adjustmentValue = parseInt(adjustment); // تحويل المدخل إلى رقم
-            if (!isNaN(adjustmentValue)) {
-                // تعديل الوقت بناءً على المدخل
-                const newTime = task.timeSpent + adjustmentValue;
-                if (newTime >= 0) {
-                    task.timeSpent = newTime;
-                    saveTasksToLocalStorage(); // حفظ التعديلات
-                    updateTaskList(); // تحديث واجهة المستخدم
-                    promptMessageForAdjusment.textContent = `تم تعديل الوقت إلى ${task.timeSpent} دقيقة.`; // convert it to alert
-                    modalOverlayForAdjusment.style.display = 'none';
-                    promptInputForAdjusment.value = '';
-                    
-                } else {
-                    promptMessageForAdjusment.textContent = 'لا يمكن أن يكون الوقت أقل من صفر.';
-                    
-                }
-            } else {
-                promptMessageForAdjusment.textContent = 'الرجاء إدخال قيمة صحيحة (مثل +10 أو -10).';
-                
-            }
-        
-    }
-    promptCancelBtnForAdjusment.onclick = function() {
-        modalOverlayForAdjusment.style.display = 'none';
-        promptModalForAdjusment.style.display = 'none';
-        promptInputForAdjusment.value = '';
-    }
-
-
-
-    
-}
-
 
 
 
@@ -619,6 +569,67 @@ function addTimeToTask() {
     }
 }
 
+
+function adjustTaskTime(index) {
+    console.log("يامجنووووون")
+    const task = tasks[index];
+
+    // const adjustment = prompt(`الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`);
+     // Set prompt message and default input value
+     let adjustment="";
+     promptMessageForAdjusment.textContent = `الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`;
+           
+       
+     // Show the prompt modal
+     modalOverlayForAdjusment.style.display = 'flex';
+     promptModalForAdjusment.style.display = 'block';
+     
+     promptInputForAdjusment.focus();
+
+    promptOkBtnForAdjusment.onclick = function() {
+        handleOK3();
+    }
+    promptInputForAdjusment.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            console.log("from adjust")
+            handleOK3();
+        }
+        });
+
+    function handleOK3(){
+        adjustment= promptInputForAdjusment.value;
+        console.log(adjustment);
+            const adjustmentValue = parseInt(adjustment); // تحويل المدخل إلى رقم
+            if (!isNaN(adjustmentValue)) {
+                // تعديل الوقت بناءً على المدخل
+                const newTime = task.timeSpent + adjustmentValue;
+                if (newTime >= 0) {
+                    task.timeSpent = newTime;
+                    saveTasksToLocalStorage(); // حفظ التعديلات
+                    updateTaskList(); // تحديث واجهة المستخدم
+                    promptMessageForAdjusment.textContent = `تم تعديل الوقت إلى ${task.timeSpent} دقيقة.`; // convert it to alert
+                    modalOverlayForAdjusment.style.display = 'none';
+                    promptInputForAdjusment.value = '';
+                    
+                } else {
+                    promptMessageForAdjusment.textContent = 'لا يمكن أن يكون الوقت أقل من صفر.';
+                    
+                }
+            } else {
+                promptMessageForAdjusment.textContent = 'الرجاء إدخال قيمة صحيحة (مثل +10 أو -10).';
+                
+            }
+
+    }
+    promptCancelBtnForAdjusment.onclick = function() {
+        modalOverlayForAdjusment.style.display = 'none';
+        promptModalForAdjusment.style.display = 'none';
+        promptInputForAdjusment.value = '';
+    }
+
+    
+}
+
 function startTimer() {
     startTime = Date.now();
     targetTime = startTime + (minutes * 60 + seconds) * 1000; // وقت الانتهاء بناءً على مدة المؤقت
@@ -634,6 +645,8 @@ function startTimer() {
 
 
 updateTaskList(); // تحديث قائمة المهام عند تحميل الصفحة
+
+
 
 
 

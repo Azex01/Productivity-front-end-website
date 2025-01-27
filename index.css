@@ -201,6 +201,18 @@ button.add-task:hover{
     transform: translateX(-50%) scale(1.05);
 }
 
+
+.delete-btn{
+    position: absolute;
+    left: 17px
+}
+
+
+.delete-btnS{
+    position: absolute;
+    left: 17px
+}
+
 .delete-btn:hover{
     background: #ff4757;
 }
@@ -264,6 +276,13 @@ button.add-task:hover{
     height: auto;
     z-index: 1000;
     display: none;
+}
+
+.task-name, .task-time {
+    word-wrap: break-word;
+    overflow-wrap: break-word; /* Ensures compatibility with older browsers */
+    white-space: normal; /* Allows text to wrap */
+    max-width: 250px; /* Set a specific width to trigger wrapping */
 }
 
 

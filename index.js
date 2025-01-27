@@ -95,6 +95,60 @@ function addTask() {
     }
 }
 
+// function updateTaskList() {
+//     const taskListElement = document.getElementById('taskList');
+//     taskListElement.innerHTML = '';
+    
+//     tasks.forEach((task, index) => {
+//         const taskTime = convertToMinutes(task.timeSpent);
+//         const taskClass = task.completed ? 'completed-task' : '';
+//         const li = document.createElement('li');
+        
+       
+        
+//         li.innerHTML = `
+//             <span class="task-name ${taskClass}">${task.name}</span> 
+             
+//             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
+//    <div class="priority-buttons">
+//         <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
+//         <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
+//         <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
+//         <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
+//     </div>
+//             <button class="start-btn" onclick="startTask(${index})">بدأ</button>
+            
+//             <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
+     
+//         `;
+//         taskListElement.appendChild(li);
+//          // amm :
+        
+
+//         //Apply the saved priority text if exists
+//         if (task.priority) {
+//             let prioritySpan = getPrioritySpan(task.priority);
+            
+            
+//             li.innerHTML = `
+//             <span class="task-name ${taskClass}">${task.name}</span> 
+                
+//             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
+//             ${prioritySpan} 
+//                 ${!task.completed ? `  <button class="start-btnS" onclick="startTask(${index})">بدأ</button>` : ''}
+//             ${!task.completed ? `<button class="complete-btnS" onclick="markTaskComplete(${index})">تم</button>` : ''}
+//                 <button class="delete-btnS" onclick="deleteTask(${index})">حذف</button>
+                
+                
+//             `;
+//         }       
+       
+
+
+        
+//     });
+// }
+
 function updateTaskList() {
     const taskListElement = document.getElementById('taskList');
     taskListElement.innerHTML = '';
@@ -104,28 +158,21 @@ function updateTaskList() {
         const taskClass = task.completed ? 'completed-task' : '';
         const li = document.createElement('li');
         
-       
-        
         li.innerHTML = `
             <span class="task-name ${taskClass}">${task.name}</span> 
-             
             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
-   <div class="priority-buttons">
-        <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
-        <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
-        <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
-        <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
-    </div>
+            <div class="priority-buttons">
+                <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
+                <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
+                <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
+                <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
+            </div>
             <button class="start-btn" onclick="startTask(${index})">بدأ</button>
-            
             <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
-     
         `;
-        taskListElement.appendChild(li);
-         // amm :
         
-
-        //Apply the saved priority text if exists
+        taskListElement.appendChild(li);
+                //Apply the saved priority text if exists
         if (task.priority) {
             let prioritySpan = getPrioritySpan(task.priority);
             
@@ -141,13 +188,13 @@ function updateTaskList() {
                 
                 
             `;
-        }       
-       
-
-
-        
+        }   
     });
+
+    // Apply truncation after tasks are added
+    truncateText(".task-name", 50); // Set 50 as the max number of characters per line
 }
+
 
 function markTaskComplete(index) {
     tasks[index].completed = !tasks[index].completed; // تبديل حالة الإكمال

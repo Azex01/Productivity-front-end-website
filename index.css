@@ -439,34 +439,18 @@ HHHHHHHHHHHHeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrooooooooooooooooooooooooooooooooo
 
 
 
-
-.tooltip {
+.clear{
     position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-    color: white;
-  }
+    left: -1409px;
+    top: -37px;
+    background-color: darkred;
+    display: none;
   
-  
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: white;
-    color: green;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
+}
 
-  }
- 
-  
-  
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-  }
-
+.clear:hover{
+    background-color: #e03e4e;
+}
 
 @keyframes fadeIn {
     from {

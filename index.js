@@ -13,6 +13,8 @@ var audio = new Audio('bell sound.mp3');
 var breakGif1=document.getElementById('breakGif1');
 var breakGif2=document.getElementById('breakGif2');
 var myHero=document.getElementById('hero');
+const clearBtn = document.querySelector('.clear');
+
 
 // Modal for prompt 1
 const modalOverlay = document.getElementById('modalOverlay');
@@ -62,92 +64,8 @@ let targetTime; // وقت انتهاء العد التنازلي
 
 
 
-document.getElementById('taskInput').addEventListener('keypress', function (event) {
-    // تحقق إذا كان المفتاح المضغوط هو Enter (رمز المفتاح 13)
-    if (event.key === 'Enter') {
-        addTask(); // استدعاء دالة إضافة المهمة
-    }
-});
-
-function addTask() {
-    const taskInput = document.getElementById('taskInput');
-    const taskName = taskInput.value.trim();
-    if (taskName) {
-        const newTask = {
-            name: taskName,
-            timeSpent: 0,
-            completed: false
-        };
-        tasks.push(newTask);
-        taskInput.value = '';
-        saveTasksToLocalStorage();
-        updateTaskList();
-    } else {
-        
-        modalMessageAlert.textContent = 'يرجى إدخال اسم المهمة';
-        modalCancelBtnAlert.style.display = 'none';
-        if(modalCancelBtnAlert.style.display === 'none'){
-            modalOkBtnAlert.style.width = '50%';
-            modalOkBtnAlert.style.margin = '0 auto';   
-        }
-        modalAlert.style.display = 'block';
-
-    }
-}
-
-// function updateTaskList() {
-//     const taskListElement = document.getElementById('taskList');
-//     taskListElement.innerHTML = '';
-    
-//     tasks.forEach((task, index) => {
-//         const taskTime = convertToMinutes(task.timeSpent);
-//         const taskClass = task.completed ? 'completed-task' : '';
-//         const li = document.createElement('li');
-        
-       
-        
-//         li.innerHTML = `
-//             <span class="task-name ${taskClass}">${task.name}</span> 
-             
-//             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
-//    <div class="priority-buttons">
-//         <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
-//         <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
-//         <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
-//         <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
-//     </div>
-//             <button class="start-btn" onclick="startTask(${index})">بدأ</button>
-            
-//             <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
-     
-//         `;
-//         taskListElement.appendChild(li);
-//          // amm :
-        
-
-//         //Apply the saved priority text if exists
-//         if (task.priority) {
-//             let prioritySpan = getPrioritySpan(task.priority);
-            
-            
-//             li.innerHTML = `
-//             <span class="task-name ${taskClass}">${task.name}</span> 
-                
-//             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
-//             ${prioritySpan} 
-//                 ${!task.completed ? `  <button class="start-btnS" onclick="startTask(${index})">بدأ</button>` : ''}
-//             ${!task.completed ? `<button class="complete-btnS" onclick="markTaskComplete(${index})">تم</button>` : ''}
-//                 <button class="delete-btnS" onclick="deleteTask(${index})">حذف</button>
-                
-                
-//             `;
-//         }       
-       
 
 
-        
-//     });
-// }
 
 function updateTaskList() {
     const taskListElement = document.getElementById('taskList');
@@ -188,12 +106,53 @@ function updateTaskList() {
                 
                 
             `;
-        }   
+        }  
+        
+       
+        
     });
 
-    // Apply truncation after tasks are added
-    truncateText(".task-name", 50); // Set 50 as the max number of characters per line
+   
 }
+
+function addTask() {
+    const taskInput = document.getElementById('taskInput');
+    const taskName = taskInput.value.trim();
+    if (taskName) {
+        const newTask = {
+            name: taskName,
+            timeSpent: 0,
+            completed: false
+        };
+        tasks.push(newTask);
+        taskInput.value = '';
+        saveTasksToLocalStorage();
+        clearBtn.style.display="block";
+        updateTaskList();
+    } else {
+        
+        modalMessageAlert.textContent = 'يرجى إدخال اسم المهمة';
+        modalCancelBtnAlert.style.display = 'none';
+        if(modalCancelBtnAlert.style.display === 'none'){
+            modalOkBtnAlert.style.width = '50%';
+            modalOkBtnAlert.style.margin = '0 auto';   
+        }
+        modalAlert.style.display = 'block';
+
+    }
+}
+
+
+document.getElementById('taskInput').addEventListener('keypress', function (event) {
+    // تحقق إذا كان المفتاح المضغوط هو Enter (رمز المفتاح 13)
+    if (event.key === 'Enter') {
+        addTask(); // استدعاء دالة إضافة المهمة
+    }
+});
+
+
+
+
 
 
 function markTaskComplete(index) {
@@ -258,6 +217,18 @@ function deleteTask(index) {
     tasks.splice(index, 1);
     saveTasksToLocalStorage();
     updateTaskList();
+}
+
+function clearTasks(){
+    
+    console.log("cleared")
+    localStorage.clear();
+    tasks=[];
+    updateTaskList();
+    console.log(clearBtn);
+    clearBtn.style.display="none";
+    
+    
 }
 
 function startTask(index) {

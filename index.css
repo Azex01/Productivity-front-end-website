@@ -165,6 +165,7 @@ button.add-task:hover{
 .pause-btn.paused:hover{
     background: #ff4757
     
+    
 }
 
 .pause-btn.continue {
@@ -204,17 +205,23 @@ button.add-task:hover{
 
 .delete-btn{
     position: absolute;
-    left: 17px
+    left: 17px;
+    background-color: darkred;
+    
+    
 }
 
 
 .delete-btnS{
     position: absolute;
-    left: 17px
+    left: 17px;
+    background-color: darkred;
+    
 }
 
 .delete-btn:hover{
     background: #ff4757;
+    
 }
 
 
@@ -362,7 +369,7 @@ button.add-task:hover{
     position: relative;
     top: -688px;
     left: -527px;
-    width: 100%;
+    width: 65%;
     height: 100%;
     
     display: flex;

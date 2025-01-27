@@ -17,7 +17,8 @@
     
 
     <div class="main">
-        <audio id="hero" controls autoplay src="bell sound.mp3"></audio>
+        <audio id="hero" controls autoplay src="bell sound.mp3" style="display: none;"></audio>
+        <audio id="checkSound" controls autoplay src="Check mark sound effect.mp3" style="display: none;"></audio>
         <div class="timer-container">
             <div class="timer-circle" id="timer">
                <span class="time">00:00</span> 
@@ -31,7 +32,7 @@
 
           
         <div class="todo-container">
-            <h2 style="color: white;">قائمة المهام</h2>
+            <h2 style="color: white;">قائمة الإنجاز</h2>
             <input type="text" id="taskInput" placeholder="أضف مهمة جديدة">
             <button class="add-task" onclick="addTask()">أضف مهمة</button>
             <button class="clear" onclick="clearTasks() ">حذف الكل</button>

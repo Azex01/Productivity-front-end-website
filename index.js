@@ -14,6 +14,8 @@ var breakGif1=document.getElementById('breakGif1');
 var breakGif2=document.getElementById('breakGif2');
 var myHero=document.getElementById('hero');
 const clearBtn = document.querySelector('.clear');
+var checkSound=document.querySelector("#checkSound");
+var checkSoundFlag=true;
 
 
 // Modal for prompt 1
@@ -77,7 +79,7 @@ function updateTaskList() {
         const li = document.createElement('li');
         
         li.innerHTML = `
-            <span class="task-name ${taskClass}">${task.name}</span> 
+            <span class="task-name ${taskClass}" onclick="markTaskComplete(${index})" style="cursor: pointer;">${task.name}</span>
             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
             <div class="priority-buttons">
                 <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
@@ -96,17 +98,21 @@ function updateTaskList() {
             
             
             li.innerHTML = `
-            <span class="task-name ${taskClass}">${task.name}</span> 
-                
+           <span class="task-name ${taskClass}" onclick="markTaskComplete(${index})" style="cursor: pointer;">${task.name}</span> 
             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
             ${prioritySpan} 
                 ${!task.completed ? `  <button class="start-btnS" onclick="startTask(${index})">بدأ</button>` : ''}
-            ${!task.completed ? `<button class="complete-btnS" onclick="markTaskComplete(${index})">تم</button>` : ''}
+
                 <button class="delete-btnS" onclick="deleteTask(${index})">حذف</button>
                 
                 
             `;
+
         }  
+
+        if(tasks!=null){
+            clearBtn.style.display="block"
+        }
         
        
         
@@ -156,9 +162,19 @@ document.getElementById('taskInput').addEventListener('keypress', function (even
 
 
 function markTaskComplete(index) {
+    
     tasks[index].completed = !tasks[index].completed; // تبديل حالة الإكمال
+   
     saveTasksToLocalStorage(); // حفظ المهام في التخزين المحلي
     updateTaskList(); // إعادة تحديث قائمة المهام
+    if(checkSoundFlag===true && tasks[index].completed){
+        checkSound.play();
+        checkSoundFlag=false;
+    }
+    else{
+        checkSoundFlag=true;
+    }
+    
     
 }
 
@@ -217,10 +233,13 @@ function deleteTask(index) {
     tasks.splice(index, 1);
     saveTasksToLocalStorage();
     updateTaskList();
+    if(tasks.length==0){
+        clearBtn.style.display="none"
+    }
 }
 
 function clearTasks(){
-    
+
     console.log("cleared")
     localStorage.clear();
     tasks=[];

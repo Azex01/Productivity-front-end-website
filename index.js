@@ -135,7 +135,7 @@ function updateTaskList() {
                 
             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
             ${prioritySpan} 
-                <button class="start-btnS" onclick="startTask(${index})">بدأ</button>
+                ${!task.completed ? `  <button class="start-btnS" onclick="startTask(${index})">بدأ</button>` : ''}
             ${!task.completed ? `<button class="complete-btnS" onclick="markTaskComplete(${index})">تم</button>` : ''}
                 <button class="delete-btnS" onclick="deleteTask(${index})">حذف</button>
                 

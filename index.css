@@ -341,7 +341,7 @@ button.add-task:hover{
   /* Modal overlay (background dimming effect) */
 .custom-modal-overlay {
     position: relative;
-    top: -631px;
+    top: -688px;
     left: -527px;
     width: 100%;
     height: 100%;

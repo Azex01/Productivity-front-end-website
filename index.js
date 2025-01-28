@@ -256,6 +256,7 @@ function clearTasks(){
     clearBtn.style.display="none";
     
     
+    
 }
 
 function startTask(index) {
@@ -299,6 +300,7 @@ function startTask(index) {
                 breakGif1.style.display="none";
                 breakGif2.style.display="none";
                 pauseResumeButton.textContent="وقف";
+                pauseResumeButton.style.display="block";
                 pauseResumeButton.classList.remove("continue");
                 pauseResumeButton.classList.add("paused");
                 promptInput.value = '';
@@ -383,6 +385,7 @@ function startBreak() {
                 console.log("(after)breakGif1 in BT is : "+breakGif1.style.display);
                 console.log("(after)breakGif2 in BT is : "+breakGif2.style.display);
                 pauseResumeButton.textContent="وقف";
+                pauseResumeButton.style.display="block";
                 pauseResumeButton.classList.remove("continue");
                 pauseResumeButton.classList.add("paused");
                 promptInputForBreak.value = '';
@@ -541,6 +544,7 @@ function handleTimerEnd() {
         breakGif2.style.display = "none";
         myHero.play();
         resetOverlay();
+       
         startBtn.textContent="بدأ";
         startBtn.style.backgroundColor="darkgreen";
     }
@@ -551,15 +555,17 @@ function formatTime(minutes, seconds) {
 }
 
 function togglePauseResume() {
-    
+        console.log("1");
 
     if (pauseResumeButton.textContent == 'إبدأ'&& (minutes===0 && seconds===0) && helperFlag===true) {
-        
+        console.log("2");
         modalMessageAlert.textContent = "إبدأ مهمة كي تحدد الوقت وتبدأ الإنجاز!";
+        console.log(modalAlert);
         modalAlert.style.display = 'block';
        
         modalCancelBtnAlert.style.display = 'none';
         if(modalCancelBtnAlert.style.display === 'none'){
+            console.log("3");
             modalOkBtnAlert.style.width = '50%';
             modalOkBtnAlert.style.margin = '0 auto'; 
         }
@@ -570,6 +576,7 @@ function togglePauseResume() {
     } 
 
     else if(pauseResumeButton.textContent == 'وقف'&& (minutes==0 && seconds===0)){
+            pauseResumeButton.style.display="none";
             pauseResumeButton.textContent = 'إبدأ';
             pauseResumeButton.classList.remove("paused");
             pauseResumeButton.classList.add("continue");
@@ -606,12 +613,14 @@ function addFinishButton() {
         finishButton.onclick = () => {
             if(breakFlag===false){
                 addTimeToTask();
+                pauseResumeButton.style.display="none";
                 pauseResumeButton.textContent="إبدأ";
                 resetOverlay();
                 startBtn.textContent="بدأ";
             }
             else{
                 defaultState();
+                pauseResumeButton.style.display="none";
                 pauseResumeButton.textContent="إبدأ";
                 // if you put resetoverlay here you cooked
             }

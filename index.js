@@ -18,6 +18,7 @@ var checkSound=document.querySelector("#checkSound");
 var checkSoundFlag=true;
 
 
+
 // Modal for prompt 1
 const modalOverlay = document.getElementById('modalOverlay');
 const promptModal = document.getElementById('promptModal');
@@ -77,8 +78,10 @@ function updateTaskList() {
         const taskTime = convertToMinutes(task.timeSpent);
         const taskClass = task.completed ? 'completed-task' : '';
         const li = document.createElement('li');
+        li.style.position = 'relative';
         
         li.innerHTML = `
+            <div class="progress-overlay"></div>
             <span class="task-name ${taskClass}" onclick="markTaskComplete(${index})" style="cursor: pointer;">${task.name}</span>
             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
             <div class="priority-buttons">
@@ -98,6 +101,7 @@ function updateTaskList() {
             
             
             li.innerHTML = `
+            <div class="progress-overlay"></div>
            <span class="task-name ${taskClass}" onclick="markTaskComplete(${index})" style="cursor: pointer;">${task.name}</span> 
             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
             ${prioritySpan} 
@@ -135,6 +139,7 @@ function addTask() {
         saveTasksToLocalStorage();
         clearBtn.style.display="block";
         updateTaskList();
+        updateProgressOverlay();
     } else {
         
         modalMessageAlert.textContent = 'يرجى إدخال اسم المهمة';
@@ -167,6 +172,7 @@ function markTaskComplete(index) {
    
     saveTasksToLocalStorage(); // حفظ المهام في التخزين المحلي
     updateTaskList(); // إعادة تحديث قائمة المهام
+    updateProgressOverlay();
     if(checkSoundFlag===true && tasks[index].completed){
         checkSound.play();
         checkSoundFlag=false;
@@ -217,6 +223,7 @@ function setPriority(index, priorityClass) {
     task.priority = priorityClass;
     saveTasksToLocalStorage();
     updateTaskList();
+    updateProgressOverlay();
 }
 
 function convertToMinutes(timeInMinutes) {
@@ -233,6 +240,7 @@ function deleteTask(index) {
     tasks.splice(index, 1);
     saveTasksToLocalStorage();
     updateTaskList();
+    updateProgressOverlay();
     if(tasks.length==0){
         clearBtn.style.display="none"
     }
@@ -251,7 +259,7 @@ function clearTasks(){
 }
 
 function startTask(index) {
-    
+    var startBtn=document.querySelector(".start-btnS");
     currentTaskId = index;
     const task = tasks[currentTaskId];
     
@@ -294,6 +302,11 @@ function startTask(index) {
                 pauseResumeButton.classList.remove("continue");
                 pauseResumeButton.classList.add("paused");
                 promptInput.value = '';
+                ////////////////////////////// here bro change the text of بدأ to يتم الإنجاز..
+                console.log(startBtn);
+                startBtn.textContent="يتم الإنجاز..."
+                
+
 
             } else {
                 promptMessage.textContent = "لازم دقيقة واحدة على الأقل";
@@ -328,6 +341,7 @@ function startTask(index) {
 
 
 function startBreak() {
+    var startBtn=document.querySelector(".start-btnS");
     myHero.play();
       
     breakFlag=true;
@@ -372,6 +386,8 @@ function startBreak() {
                 pauseResumeButton.classList.remove("continue");
                 pauseResumeButton.classList.add("paused");
                 promptInputForBreak.value = '';
+                startBtn.textContent="بريييك"
+                startBtn.style.backgroundColor="darkgoldenrod";
                 }
             
                   else {
@@ -436,6 +452,7 @@ function updateTimer() {
 
     // تحديث واجهة المستخدم
     updateTimerDisplay();
+    updateProgressOverlay(); // استدعاء الدالة لتحديث لون التراكب وحجمه كل ثانية
 
     // طباعة لمساعدتك
     console.log(`elapsedTimeInSeconds: ${elapsedTimeInSeconds}`);
@@ -448,6 +465,64 @@ function updateTimerDisplay() {
     timerElement.textContent = formatTime(minutes, seconds);
 }
 
+function updateProgressOverlay() {
+    var startBtn=document.querySelector(".start-btnS");
+    // الشرط الأول: لازم نعرف أي مهمة قيد العمل (currentTaskId).
+    if (currentTaskId !== null) {
+        // نأتي بكل عناصر li في قائمة المهام
+        const taskListElement = document.getElementById('taskList');
+        const lis = taskListElement.getElementsByTagName('li');
+
+        // نحدّد العنصر li المطابق لـ currentTaskId
+        const currentLi = lis[currentTaskId];
+        if (!currentLi) return;
+
+        // نأتي بالـ overlay عن طريق querySelector
+        const overlay = currentLi.querySelector('.progress-overlay');
+        if (!overlay) return;
+
+        // حساب نسبة التقدم
+        let totalSeconds = enteredTime * 60;
+        let progressPercentage = (elapsedTimeInSeconds / totalSeconds) * 100;
+        if (progressPercentage > 100) progressPercentage = 100; // احتياطاً
+
+        // حدّد عرض العنصر overlay
+        overlay.style.width = progressPercentage + '%';
+
+        // حدّد لونه حسب ما إذا كنا في بريك أم لا
+        if (breakFlag) {
+            // بريك
+            overlay.style.backgroundColor = 'rgba(255, 255, 0, 0.2)';
+        } else {
+            // مهمة
+            overlay.style.backgroundColor = 'rgba(0, 128, 0, 0.2)';
+        }
+        if(breakFlag==false){
+            startBtn.textContent="يتم الإنجاز..."
+        }
+        else{
+            startBtn.textContent="بريييك"
+            startBtn.style.backgroundColor="darkgoldenrod"
+        }
+        
+
+    }
+}
+
+function resetOverlay() {
+    if (currentTaskId !== null) {
+        const taskListElement = document.getElementById('taskList');
+        const lis = taskListElement.getElementsByTagName('li');
+        const currentLi = lis[currentTaskId];
+        if (!currentLi) return;
+
+        const overlay = currentLi.querySelector('.progress-overlay');
+        if (overlay) {
+            overlay.style.width = '0%';
+        }
+    }
+}
+
 function handleTimerEnd() {
     if (breakFlag === false) {  // هذي الحاله لما ينتهي وقت المهمه الي حطيته
         addTimeToTask();
@@ -458,12 +533,16 @@ function handleTimerEnd() {
         
         
     } else {
+        var startBtn=document.querySelector(".start-btnS");
         togglePauseResume();
         breakFlag = false;
         helperFlag = true;
         breakGif1.style.display = "none";
         breakGif2.style.display = "none";
         myHero.play();
+        resetOverlay();
+        startBtn.textContent="بدأ";
+        startBtn.style.backgroundColor="darkgreen";
     }
 }
 
@@ -518,6 +597,7 @@ function togglePauseResume() {
 }
 
 function addFinishButton() {
+    var startBtn=document.querySelector(".start-btnS");
     const existingFinishButton = document.querySelector('.finish-button');
     if (!existingFinishButton) {
         const finishButton = document.createElement('button');
@@ -527,10 +607,13 @@ function addFinishButton() {
             if(breakFlag===false){
                 addTimeToTask();
                 pauseResumeButton.textContent="إبدأ";
+                resetOverlay();
+                startBtn.textContent="بدأ";
             }
             else{
                 defaultState();
                 pauseResumeButton.textContent="إبدأ";
+                // if you put resetoverlay here you cooked
             }
             
         };
@@ -539,6 +622,7 @@ function addFinishButton() {
 }
 
 function defaultState(){
+    var startBtn=document.querySelector(".start-btnS");
     removeFinishButton();
         clearInterval(timer);
         minutes=0;
@@ -549,6 +633,9 @@ function defaultState(){
         breakGif2.style.display="none";
         breakFlag=false;
         helperFlag=true; // عشان اذا ضغطت ابدا فالبدايه مايستهبل
+        resetOverlay();
+        startBtn.textContent="بدأ";
+        startBtn.style.backgroundColor="darkgreen";
 }
 
 function removeFinishButton() {
@@ -571,7 +658,7 @@ function addTimeToTask() {
         // حفظ المهام وتحديث القائمة
         saveTasksToLocalStorage();
         updateTaskList();
-
+        updateProgressOverlay();
         // إعادة تعيين المؤقت والقيم
         elapsedTimeInSeconds = 0;
         removeFinishButton();
@@ -644,6 +731,7 @@ function adjustTaskTime(index) {
                     task.timeSpent = newTime;
                     saveTasksToLocalStorage(); // حفظ التعديلات
                     updateTaskList(); // تحديث واجهة المستخدم
+                    updateProgressOverlay();
                     promptMessageForAdjusment.textContent = `تم تعديل الوقت إلى ${task.timeSpent} دقيقة.`; // convert it to alert
                     modalOverlayForAdjusment.style.display = 'none';
                     promptInputForAdjusment.value = '';

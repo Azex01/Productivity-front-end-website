@@ -459,6 +459,19 @@ HHHHHHHHHHHHeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrooooooooooooooooooooooooooooooooo
     background-color: #e03e4e;
 }
 
+/* عنصر تراكبي يمثّل تعبئة المهمة أو البريك */
+.progress-overlay {
+    position: absolute;
+    top: 0;
+    right: 0; /* ابدأ من اليمين كي يمتد ناحية اليسار */
+    height: 100%;
+    width: 0%;               /* يبدأ من عرض 0% */
+    pointer-events: none;     /* حتى لا يؤثر على النقرات */
+    z-index: 0;              /* خلف النصوص والأزرار */
+    transition: width 0.2s linear; /* لتحديث سلس كل ثانية */
+}
+
+
 @keyframes fadeIn {
     from {
         opacity: 0;

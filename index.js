@@ -743,8 +743,6 @@ function handleTimerEnd() {
     } else {
         var startBtn=document.querySelector(".start-btnS");
         var startButtons=document.getElementsByClassName("start-btnS");
-        
-        
         togglePauseResume();
         breakFlag = false;
         helperFlag = true;
@@ -755,6 +753,9 @@ function handleTimerEnd() {
         isTimerOn=false;
         for(let i=0;startButtons.length>i;i++){
             startButtons[i].disabled = false;
+            startButtons[i].textContent = "بدأ";
+            startButtons[i].style.backgroundColor = "darkgreen";
+
             
         }
         

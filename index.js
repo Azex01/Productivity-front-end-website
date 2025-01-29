@@ -334,10 +334,19 @@ function deleteTask(index) {
     saveTasksToLocalStorage();
     updateTaskList();
     if(isTimerOn==true){
-        updateProgressOverlay();
+     updateProgressOverlay();
     }
     if(tasks.length==0){
         clearBtn.style.display="none"
+    }
+
+    if (index === currentTaskId) {
+        addTimeToTask(); // إنهاء المهمة
+        defaultState(); // إعادة تعيين الحالة
+        isTimerOn = false;
+        pauseResumeButton.style.display = "none";
+        currentTaskId = null;
+
     }
 }
 

@@ -403,11 +403,11 @@ function startTask(index) {
             });
 
             // تحديث زر المهمة الحالية بناءً على data-index
-            const startBtn = document.querySelector(`.start-btnS[data-index="${index}"]`);
-            if (startBtn) {
-                startBtn.textContent = "تم الإنجاز...";
-                startBtn.style.backgroundColor = "darkgreen";
-            }
+            // const startBtn = document.querySelector(`.start-btnS[data-index="${index}"]`);
+            // if (startBtn) {
+            //     startBtn.textContent = "تم الإنجاز...";
+            //     startBtn.style.backgroundColor = "darkgreen";
+            // }
         } else {
             promptMessage.textContent = "لازم دقيقة واحدة على الأقل";
         }
@@ -583,8 +583,8 @@ function startBreak() {
                 pauseResumeButton.classList.remove("continue");
                 pauseResumeButton.classList.add("paused");
                 promptInputForBreak.value = '';
-                startBtn.textContent="بريييك"
-                startBtn.style.backgroundColor="darkgoldenrod";
+                // startBtn.textContent="بريييك"
+                // startBtn.style.backgroundColor="darkgoldenrod";
                 }
             
                   else {
@@ -670,7 +670,7 @@ function updateTimerDisplay() {
 }
 
 function updateProgressOverlay() {
-    var startBtn=document.querySelector(".start-btnS");
+    const startBtn = document.querySelector(`.start-btnS[data-index="${currentTaskId}"]`);
     // الشرط الأول: لازم نعرف أي مهمة قيد العمل (currentTaskId).
     if (currentTaskId !== null) {
         // نأتي بكل عناصر li في قائمة المهام
@@ -836,6 +836,7 @@ function addFinishButton() {
                 startButtons.disabled = false;
                 for(let i=0;startButtons.length>i;i++){
                     startButtons[i].disabled=false;
+                    startButtons[i].textContent="بدأ";
                     
                 }
             }

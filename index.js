@@ -779,7 +779,7 @@ function addTimeToTask() {
 function adjustTaskTime(index) {
     
     let task2 = tasks[index];
-    console.log("task name "+task2.name+" and its time : "+task2.timeSpent);
+   
 
      let adjustment="";
      promptMessageForAdjusment.textContent = `الوقت الحالي: ${task2.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`;
@@ -799,7 +799,7 @@ function adjustTaskTime(index) {
     }
     function handleEnterPress(event) {
         if (event.key === 'Enter') {
-            console.log("inside addEventListener " + task2.name);
+            
             handleOK3(task2);
             promptInputForAdjusment.removeEventListener('keypress', handleEnterPress);
         }
@@ -816,14 +816,14 @@ function adjustTaskTime(index) {
 }
 
 function handleOK3(task2){
-    console.log(task2.name+" inside the handleok3")
+    
     adjustment= promptInputForAdjusment.value;
         const adjustmentValue = parseInt(adjustment); // تحويل المدخل إلى رقم
         if (!isNaN(adjustmentValue)) {
             // تعديل الوقت بناءً على المدخل
-            console.log("task name inside the if : "+task2.name);
+            
             const newTime = task2.timeSpent + adjustmentValue;
-            console.log("new time is : "+newTime)
+            
             if (newTime >= 0) {
                 task2.timeSpent = newTime;
                 saveTasksToLocalStorage(); // حفظ التعديلات

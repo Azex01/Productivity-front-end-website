@@ -608,7 +608,7 @@ footer {
     }
 
     span.task-time{
-        margin-top: 2px;
+        margin-top: -18px;
         cursor: pointer;
         position: absolute;
         left: 10px;

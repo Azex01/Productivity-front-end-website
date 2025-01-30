@@ -32,3 +32,7 @@
 
 **صنع بحب في مكيال**  
 تمت صناعته بـ HTML/CSS/JS 🔥 بواسطة [ازيكس](https://github.com/Azex01)
+
+
+**مزامنه التحديثات على Netlify **
+- [![Netlify Status](https://api.netlify.com/api/v1/badges/3b28d861-0155-4676-8542-830fe2a76c99/deploy-status)](https://app.netlify.com/sites/injaz/deploys)

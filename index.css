@@ -641,7 +641,7 @@ footer {
     }
 
     .progress-overlay {
-        display: none;
+        display: block !important;
     }
 
     .priority-text {

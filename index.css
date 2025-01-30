@@ -486,3 +486,37 @@ HHHHHHHHHHHHeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrooooooooooooooooooooooooooooooooo
 
 
 
+footer {
+    background-color: #141414; /* يمكنك استخدام #141414 لتطابق خلفية موقعك */
+    padding: 0px;
+    text-align: center;
+    margin-top: 187px; /* مسافة علوية للفصل عن باقي المحتوى */
+    color: #fff;      /* لون النص */
+    font-family: 'Cairo', sans-serif; /* إن كنت تستخدم خط Cairo */
+    border-top: 1px solid #444; /* خط علوي خفيف للمظهر */
+  }
+  
+  footer p {
+    margin: 0; /* إزالة الهوامش الافتراضية حول الفقرة */
+    line-height: 1.6;
+  }
+  
+  footer a {
+    color: #4CAF50;         /* لون الروابط */
+    text-decoration: none;  /* إزالة التسطير */
+    font-weight: bold;      /* جعل الرابط بارزًا */
+  }
+  
+  footer a:hover {
+    color: #45a049;         /* لون عند التمرير بالفأرة */
+  }
+  
+  @media (max-width: 600px) {
+    footer {
+      padding: 15px;
+    }
+    footer p {
+      font-size: 14px;
+    }
+  }
+  

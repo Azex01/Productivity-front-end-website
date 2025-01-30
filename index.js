@@ -57,14 +57,6 @@ modalOkBtnAlert.onclick = function() {
     modalAlert.style.display = 'none';
 };
 
-//
-// document.addEventListener("click", function (event) {
-//     modalAlert.style.display = 'none';;
-// }); 
-// may you need to add طبقه شفافه اذا ضغطت في اي مكان عليها تختفي الطبقه السوداء ويختفي الاليرت
-
-
-
 let startTime; // الطابع الزمني عند بدء المؤقت
 let targetTime; // وقت انتهاء العد التنازلي 
 
@@ -198,40 +190,6 @@ document.getElementById('taskInput').addEventListener('keypress', function (even
 });
 
 
-
-
-
-
-// function markTaskComplete(index) {
-    
-//     tasks[index].completed = !tasks[index].completed; // تبديل حالة الإكمال
-   
-//     saveTasksToLocalStorage(); // حفظ المهام في التخزين المحلي
-//     updateTaskList(); // إعادة تحديث قائمة المهام
-//     if (index === currentTaskId) {
-//     //     // إنهاء المهمة
-    
-//         defaultState();
-//         isTimerOn=false
-//         pauseResumeButton.style.display="none";
-//         pauseResumeButton.textContent="إبدأ";
-    
-//     }
-
-//     if(checkSoundFlag===true && tasks[index].completed){
-
-//         checkSound.play();
-//         checkSoundFlag=false;
-  
-//     }
-//     else{
-        
-//         checkSoundFlag=true;
-        
-        
-//     }
-    
-// }
 function markTaskComplete(index) {
     tasks[index].completed = !tasks[index].completed;
 
@@ -350,20 +308,7 @@ function deleteTask(index) {
     }
 }
 
-// function clearTasks(){
-//     clearBtn.style.display="none";
-//     isTimerOn=false
-//         pauseResumeButton.style.display="none";
-//         pauseResumeButton.textContent="إبدأ";
-//     localStorage.clear();
-//     tasks=[];
-    
-//         updateTaskList();
-//         defaultState();
-       
-//         // if you put resetoverlay here you cooked
-    
-// }
+
 function clearTasks() {
     localStorage.clear();
     tasks = [];
@@ -411,12 +356,6 @@ function startTask(index) {
                 if (btn.dataset.index !== String(index)) btn.disabled = true; // تعطيل الأزرار الأخرى
             });
 
-            // تحديث زر المهمة الحالية بناءً على data-index
-            // const startBtn = document.querySelector(`.start-btnS[data-index="${index}"]`);
-            // if (startBtn) {
-            //     startBtn.textContent = "تم الإنجاز...";
-            //     startBtn.style.backgroundColor = "darkgreen";
-            // }
         } else {
             promptMessage.textContent = "لازم دقيقة واحدة على الأقل";
         }
@@ -439,105 +378,6 @@ function startTask(index) {
     };
 }
 
-
-
-
-
-// function startTask(index) {
-//     var startBtn=document.querySelector(".start-btnS");
-//     var startButtons=document.getElementsByClassName("start-btnS");
-    
-    
-//     currentTaskId = index;
-//     const task = tasks[currentTaskId];
-    
-
-    
-       
-//            // Set prompt message and default input value
-//            promptMessage.textContent = `كم مدة إنجازك في المهمة "${task.name}" بالدقائق؟`;
-           
-       
-//            // Show the prompt modal
-//            modalOverlay.style.display = 'flex';
-//            promptModal.style.display = 'block';
-//            promptInput.focus();
-
-
-//            function handleOk() {
-//             // the code that should run on OK
-//             const newTimeInMinutes = promptInput.value;
-            
-        
-//             if (!isNaN(newTimeInMinutes) && newTimeInMinutes >= 1) {
-//                 modalOverlay.style.display = 'none';
-//                 promptModal.style.display = 'none';
-                
-//                 modalOverlay.style.display = 'none';
-//                 promptModal.style.display = 'none';
-//                 enteredTime = parseInt(newTimeInMinutes);
-//                 minutes = enteredTime;
-//                 seconds = 0;
-//                 isPaused = false;
-//                 elapsedTimeInSeconds = 0;
-//                 clearInterval(timer);
-//                 startTimer();
-//                 isTimerOn=true;
-//                 // for each here :
-
-//                 for(let i=0;startButtons.length>i;i++){
-//                     startButtons[i].disabled=true;
-                    
-//                 }
-
-
-//                 // startButtons.disabled=true;
-                
-                
-//                 breakGif1.style.display="none";
-//                 breakGif2.style.display="none";
-//                 pauseResumeButton.textContent="وقف";
-//                 pauseResumeButton.style.display="block";
-//                 pauseResumeButton.classList.remove("continue");
-//                 pauseResumeButton.classList.add("paused");
-//                 promptInput.value = '';
-//                 ////////////////////////////// here bro change the text of بدأ to يتم الإنجاز..
-                
-                
-//                 startBtn.textContent="يتم الإنجاز..."
-                
-
-
-//             } else {
-//                 promptMessage.textContent = "لازم دقيقة واحدة على الأقل";
-//             }
-//           }
-          
-//         //   promptOkBtn.addEventListener('click', handleOk);
-//         promptOkBtn.addEventListener("click", function (event) {
-//          modalAlert.style.display = 'none';;
-//          });
-//           promptInput.addEventListener('keypress', function(event) {
-//             if (event.key === 'Enter') {
-               
-//                 handleOk();
-//             }
-//           });
-          
-           
-
-//                 // When Cancel is clicked
-//            promptCancelBtn.onclick = function() {
-//             modalOverlay.style.display = 'none';
-//             promptModal.style.display = 'none';
-//             promptInput.value = '';
-//             defaultState();
-            
-//         };
-
-
-
-//            }
 
 
 function startBreak() {
@@ -697,20 +537,21 @@ function updateProgressOverlay() {
         // حساب نسبة التقدم
         let totalSeconds = enteredTime * 60;
         let progressPercentage = (elapsedTimeInSeconds / totalSeconds) * 100;
-        if (progressPercentage > 100) progressPercentage = 100; // احتياطاً
+        if (progressPercentage >= 100) progressPercentage = 0; // احتياطاً
+
 
         // حدّد عرض العنصر overlay
         overlay.style.width = progressPercentage + '%';
 
         // حدّد لونه حسب ما إذا كنا في بريك أم لا
-        if (breakFlag) {
+        if (breakFlag && progressPercentage!==0) {
             // بريك
             overlay.style.backgroundColor = 'rgba(255, 255, 0, 0.2)';
         } else {
             // مهمة
             overlay.style.backgroundColor = 'rgba(0, 128, 0, 0.2)';
         }
-        if(hero2==true){
+        if(hero2==true && progressPercentage!==0){
             if(breakFlag==false){
                 startBtn.textContent="يتم الإنجاز..."
             }
@@ -886,31 +727,6 @@ function defaultState() {
 }
 
 
-// function defaultState(){
-//     var startBtn=document.querySelector(".start-btnS");
-//     var startButtons=document.getElementsByClassName("start-btnS");
-//         removeFinishButton();
-//         clearInterval(timer);
-//         minutes=0;
-//         seconds=0;
-//         const timerElement = document.getElementById('timer');
-//         timerElement.textContent = formatTime(minutes, seconds);
-//         breakGif1.style.display="none";
-//         breakGif2.style.display="none";
-//         breakFlag=false;
-//         helperFlag=true; // عشان اذا ضغطت ابدا فالبدايه مايستهبل
-//         resetOverlay();
-//         // startBtn.style.disabled="none";
-//         if(hero2=true){
-//             startBtn.textContent="بدأ";
-//         startBtn.style.backgroundColor="darkgreen";
-//         }
-        
-//         for(let i=0;startButtons.length>i;i++){
-//             startButtons[i].disabled=false;
-            
-//         }
-// }
 
 function removeFinishButton() {
     const finishButton = document.querySelector('.finish-button');
@@ -947,14 +763,7 @@ function addTimeToTask() {
         
     } else if (elapsedTimeInSeconds < 60) {
        
-        // modalMessageAlert.textContent = "الوقت المنقضي أقل من دقيقة! لذلك لن يتم إضافة الوقت.";
-        // modalAlert.style.display = 'block';
-       
-        // modalCancelBtnAlert.style.display = 'none';
-        // if(modalCancelBtnAlert.style.display === 'none'){
-        //     modalOkBtnAlert.style.width = '50%';
-        //     modalOkBtnAlert.style.margin = '0 auto'; 
-        // }
+
         removeFinishButton();
         clearInterval(timer);
         minutes = 0;
@@ -969,12 +778,11 @@ function addTimeToTask() {
 
 function adjustTaskTime(index) {
     
-    const task = tasks[index];
+    let task2 = tasks[index];
+    console.log("task name "+task2.name+" and its time : "+task2.timeSpent);
 
-    // const adjustment = prompt(`الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`);
-     // Set prompt message and default input value
      let adjustment="";
-     promptMessageForAdjusment.textContent = `الوقت الحالي: ${task.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`;
+     promptMessageForAdjusment.textContent = `الوقت الحالي: ${task2.timeSpent} دقيقة\n مثال : اكتب +10 لإضافة 10 دقائق أو -10 لإنقاص 10 دقائق:`;
            
        
      // Show the prompt modal
@@ -982,43 +790,22 @@ function adjustTaskTime(index) {
      promptModalForAdjusment.style.display = 'block';
      
      promptInputForAdjusment.focus();
+     promptInputForAdjusment.addEventListener('keypress', handleEnterPress);
+     
 
     promptOkBtnForAdjusment.onclick = function() {
-        handleOK3();
-    }
-    promptInputForAdjusment.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            
-            handleOK3();
-        }
-        });
-
-    function handleOK3(){
-        adjustment= promptInputForAdjusment.value;
         
-            const adjustmentValue = parseInt(adjustment); // تحويل المدخل إلى رقم
-            if (!isNaN(adjustmentValue)) {
-                // تعديل الوقت بناءً على المدخل
-                const newTime = task.timeSpent + adjustmentValue;
-                if (newTime >= 0) {
-                    task.timeSpent = newTime;
-                    saveTasksToLocalStorage(); // حفظ التعديلات
-                    updateTaskList(); // تحديث واجهة المستخدم
-                    updateProgressOverlay();
-                    promptMessageForAdjusment.textContent = `تم تعديل الوقت إلى ${task.timeSpent} دقيقة.`; // convert it to alert
-                    modalOverlayForAdjusment.style.display = 'none';
-                    promptInputForAdjusment.value = '';
-                    
-                } else {
-                    promptMessageForAdjusment.textContent = 'لا يمكن أن يكون الوقت أقل من صفر.';
-                    
-                }
-            } else {
-                promptMessageForAdjusment.textContent = 'الرجاء إدخال قيمة صحيحة (مثل +10 أو -10).';
-                
-            }
-
+        handleOK3(task2);
     }
+    function handleEnterPress(event) {
+        if (event.key === 'Enter') {
+            console.log("inside addEventListener " + task2.name);
+            handleOK3(task2);
+            promptInputForAdjusment.removeEventListener('keypress', handleEnterPress);
+        }
+    }
+    
+    
     promptCancelBtnForAdjusment.onclick = function() {
         modalOverlayForAdjusment.style.display = 'none';
         promptModalForAdjusment.style.display = 'none';
@@ -1026,6 +813,35 @@ function adjustTaskTime(index) {
     }
 
     
+}
+
+function handleOK3(task2){
+    console.log(task2.name+" inside the handleok3")
+    adjustment= promptInputForAdjusment.value;
+        const adjustmentValue = parseInt(adjustment); // تحويل المدخل إلى رقم
+        if (!isNaN(adjustmentValue)) {
+            // تعديل الوقت بناءً على المدخل
+            console.log("task name inside the if : "+task2.name);
+            const newTime = task2.timeSpent + adjustmentValue;
+            console.log("new time is : "+newTime)
+            if (newTime >= 0) {
+                task2.timeSpent = newTime;
+                saveTasksToLocalStorage(); // حفظ التعديلات
+                updateTaskList(); // تحديث واجهة المستخدم
+                updateProgressOverlay();
+                promptMessageForAdjusment.textContent = `تم تعديل الوقت إلى ${task2.timeSpent} دقيقة.`; // convert it to alert
+                modalOverlayForAdjusment.style.display = 'none';
+                promptInputForAdjusment.value = '';
+                
+            } else {
+                promptMessageForAdjusment.textContent = 'لا يمكن أن يكون الوقت أقل من صفر.';
+                
+            }
+        } else {
+            promptMessageForAdjusment.textContent = 'الرجاء إدخال قيمة صحيحة (مثل +10 أو -10).';
+            
+        }
+
 }
 
 function startTimer() {

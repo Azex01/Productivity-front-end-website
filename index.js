@@ -18,6 +18,7 @@ var checkSound=document.querySelector("#checkSound");
 var checkSoundFlag=true;
 var isTimerOn=false;
 var hero2=true;
+// let finishButtonHaveBeenClicked=false;
 
 
 
@@ -560,6 +561,7 @@ function updateProgressOverlay() {
                 startBtn.style.backgroundColor="darkgoldenrod"
             }
         }
+        // finishButtonHaveBeenClicked=false;
         
         
 
@@ -685,6 +687,8 @@ function addFinishButton() {
                 resetOverlay();
                 startBtn.textContent="بدأ";
                 startButtons.disabled = false;
+                // finishButtonHaveBeenClicked=true;
+                // progress percentage=0 ?
                 for(let i=0;startButtons.length>i;i++){
                     startButtons[i].disabled=false;
                     startButtons[i].textContent="بدأ";
@@ -696,6 +700,7 @@ function addFinishButton() {
                 isTimerOn=false
                 pauseResumeButton.style.display="none";
                 pauseResumeButton.textContent="إبدأ";
+                // finishButtonHaveBeenClicked=true;
                 // if you put resetoverlay here you cooked
             }
             
@@ -828,7 +833,8 @@ function handleOK3(task2){
                 task2.timeSpent = newTime;
                 saveTasksToLocalStorage(); // حفظ التعديلات
                 updateTaskList(); // تحديث واجهة المستخدم
-                updateProgressOverlay();
+                // updateProgressOverlay();
+                
                 promptMessageForAdjusment.textContent = `تم تعديل الوقت إلى ${task2.timeSpent} دقيقة.`; // convert it to alert
                 modalOverlayForAdjusment.style.display = 'none';
                 promptInputForAdjusment.value = '';

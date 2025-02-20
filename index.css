@@ -11,9 +11,11 @@ body{
 }
 
 #taskInput {
-    padding: 10px;
+    padding: 18px;
     margin-right: 10px;
     font-size: 16px;
+    border-radius: 30px;
+
 }
 #taskInput:focus {
     outline: none;
@@ -33,6 +35,8 @@ li {
     margin: 5px 0;
     border-radius: 5px;
     color: #141414;
+    
+    position: relative;
 }
 
 
@@ -45,8 +49,9 @@ span.task-time{
     /* new things : */
     
     cursor: pointer;
-    position: absolute;
-    right: 308px;
+     position: absolute;
+     right: 24%;
+   
 }
 
 /* span.task-time:hover{
@@ -204,8 +209,8 @@ button.add-task:hover{
 
 
 .delete-btn{
-    position: absolute;
-    left: 17px;
+    /* position: absolute;
+    left: 17px; */
     background-color: darkred;
     
     
@@ -214,8 +219,9 @@ button.add-task:hover{
 
 .delete-btnS{
     position: absolute;
-    left: 17px;
+    left: 1%;
     background-color: darkred;
+    
     
 }
 
@@ -228,8 +234,9 @@ button.add-task:hover{
 .priority-text {
     font-weight: bold;
     position: absolute;
-    right: 691px;
+    left: 40%;
 }
+
 .priority-text.urgent-important {
     color: #B71C1C;
   }
@@ -255,14 +262,25 @@ button.add-task:hover{
 
 /* تنسيق أزرار الأولوية */
 .priority-buttons {
-    position: absolute;
-    right: 507px;
-}
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;  /* أو space-between */
+    align-items: center;
+    /* احذف أي position: absolute; أو إزاحات */
+  }
+  
 
  .priority-btn {
     background-color: darkslategrey;
-    ;
+    white-space: normal;       /* يسمح بفصل الأسطر */
+    word-wrap: break-word;     /* إذا كانت الكلمة طويلة جدًا */
+    overflow-wrap: break-word; /* لبعض المتصفحات القديمة */
+    text-align: center; 
+    
 }
+
 
 
 #breakGif1 {
@@ -301,20 +319,18 @@ button.add-task:hover{
 
 
 
-.complete-btnS {
+/* .complete-btnS {
     position: absolute;
     left: 106px;
-}
+} */
 
 .start-btnS {
     position: absolute;
-    left: 357px;
-}
+    right: 70%;}
 
 .start-btn{
         
-        position: absolute;
-        left: 356px;
+        display: none;
 }
 
 /* Existing CSS not shown here (your styling for .main, .timer-container, etc.) */
@@ -365,7 +381,7 @@ button.add-task:hover{
 
   /* alert modal styling : */
   /* Modal overlay (background dimming effect) */
-.custom-modal-overlay {
+/* .custom-modal-overlay {
     position: relative;
     top: -688px;
     left: -527px;
@@ -376,10 +392,10 @@ button.add-task:hover{
     justify-content: center;
     align-items: center;
     z-index: 1000;
-}
+} */
 
 /* Modal box */
-.custom-modal {
+/* .custom-modal {
     background-color: white;
     border-radius: 8px;
     padding: 20px 30px;
@@ -390,23 +406,83 @@ button.add-task:hover{
     animation: fadeIn 0.3s ease-in-out;
     position: absolute;
     top: -410px;
-}
+} */
+
+
+/* Overlay يغطي كامل الشاشة */
+.custom-modal-overlay {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);  /* خلفية شفافة لتعتيم الصفحة */
+    display: none;                     /* يُصبح display: flex عند الفتح */
+    justify-content: center;           /* توسيط أفقي */
+    align-items: center;               /* توسيط عمودي */
+    z-index: 9999;                     /* للتأكد من ظهورها فوق بقية العناصر */
+  }
+  
+  /* صندوق الـModal نفسه */
+  .custom-modal {
+    background-color: #fff;     /* لون خلفية */
+    border-radius: 8px;         /* زوايا مستديرة */
+    padding: 20px 30px;         /* حواف داخلية */
+    max-width: 400px;           /* الحد الأقصى للعرض */
+    width: 90%;                 /* للتمدد بما يناسب الشاشات الصغيرة */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;         /* محاذاة النص بالمنتصف */
+  }
+  
+  /* نص الرسالة */
+  .custom-modal-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  /* أزرار النافذة */
+  .custom-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* مثال تنسيق الأزرار */
+  .custom-modal-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .custom-modal-button:hover {
+    background-color: #45a049;
+  }
+  /* زر الإلغاء لون مختلف */
+  #customModalCancelBtn {
+    background-color: #ff4757;
+  }
+  #customModalCancelBtn:hover {
+    background-color: #e03e4e;
+  }
+  
 
 /* Modal message text */
-.custom-modal-message {
+/* .custom-modal-message {
     font-size: 16px;
     margin-bottom: 20px;
     color: #333;
-}
+} */
 
 /* Modal buttons container */
-.custom-modal-buttons {
+/* .custom-modal-buttons {
     display: flex;
     justify-content: space-between;
-}
+} */
 
 /* Modal buttons */
-.custom-modal-button {
+/* .custom-modal-button {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -415,20 +491,20 @@ button.add-task:hover{
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s;
-}
+} */
 
-.custom-modal-button:hover {
+/* .custom-modal-button:hover {
     background-color: #45a049;
-}
+} */
 
 /* Cancel button styling */
-#customModalCancelBtn {
+/* #customModalCancelBtn {
     background-color: #ff4757;
 }
 
 #customModalCancelBtn:hover {
     background-color: #e03e4e;
-}
+} */
 
 /* 
 
@@ -447,11 +523,13 @@ HHHHHHHHHHHHeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrooooooooooooooooooooooooooooooooo
 
 
 .clear{
-    position: relative;
+    /* position: relative; */
     left: -1409px;
     top: -37px;
     background-color: darkred;
     display: none;
+    margin-bottom: 20px;
+    margin-top: 21px;
   
 }
 
@@ -521,7 +599,7 @@ footer {
   }
 
 /* Mobile Styles */
-@media only screen and (max-width: 768px) {
+/* @media only screen and (max-width: 768px) {
     body {
         padding: 10px;
     }
@@ -565,6 +643,7 @@ footer {
         display: flex;
         flex-wrap: wrap;
         gap: 5px;
+        margin-right: 54px;
     }
 
     .priority-buttons button {
@@ -577,7 +656,7 @@ footer {
         position: relative;
         left: 0;
         margin-top: 10px;
-        width: 100%;
+        width: 10%;
     }
 
     .start-btnS{
@@ -601,7 +680,7 @@ footer {
         display: none;}
 
     .task-time, .task-name {
-        max-width: 100%;
+        max-width: 50%;
         text-align: center;
         position: relative;
         right: 0 !important;
@@ -651,10 +730,9 @@ footer {
         width: 100%;
         margin: 5px 0;
     }
-}
+} */
 
-/* Tablet Styles */
-@media only screen and (min-width: 769px) and (max-width: 1024px) {
+/* @media only screen and (min-width: 769px) and (max-width: 1024px) {
     .timer-container {
         width: 280px;
         height: 280px;
@@ -667,6 +745,121 @@ footer {
     #breakGif1, #breakGif2 {
         width: 250px;
     }
-}
+} */
+
+  /* @media only screen and (max-width:520px){
+    .start-btnS{
+        right: 1%;
+    }
+    .delete-btnS{
+        left: 1%;
+    }
+    span.task-time {
+        margin-top: -18px;
+        cursor: pointer;
+        position: absolute;
+        left: 10px;
+    }
+    span.task-name {
+        position: relative !important;
+        right: 0 !important;
+        text-align: center;
+        width: 100%;
+        margin: 5px 0;
+   
+    }
+   
+    .priority-text {
+        position: relative !important;
+        right: 0 !important;
+        text-align: center;
+        width: 100%;
+        margin: 5px 0;
+    }
+
+  } */
+ 
   
+   
+  @media only screen and (max-width: 590px) {
+    /* تنسيق عناصر <li> */
+    #taskList li {
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
   
+    /* تنسيق الحاوية التي تضم زرّ "بدأ" وزرّ "حذف" */
+    .buttons-container {
+      display: flex;             /* ضروري لتفعيل خصائص الفليكس */
+      flex-direction: column;    /* ترتيب عمودي */
+      align-items: center;       /* توسيط أفقي */
+      gap: 5px;                  /* مسافة بين الأزرار */
+    }
+  
+    /* لجعل الأزرار نفسها لا تعتمد على position: absolute */
+    .start-btnS,
+    .delete-btnS {
+      position: static;
+      margin: 5px 0;      
+      /* يمكنك إضافة width: 80%; إن أردت */
+    }
+  
+    /* نص المهمة */
+    span.task-name {
+      position: static !important;
+      width: auto;       
+      margin: 5px 0;
+      text-align: center;
+    }
+  
+    /* وقت المهمة */
+    span.task-time {
+      position: static;
+      margin: 5px 0;
+      text-align: center;
+      cursor: pointer;
+
+    }
+  
+    /* نص الأولوية */
+    .priority-text {
+     
+      width: auto;
+      margin: 4px 20px;
+      text-align: center;
+    }
+  
+    /* أزرار الأولوية */
+    .priority-buttons {
+      display: flex;
+      
+      gap: 5px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    .priority-btn{
+        flex-basis: 37%;
+  box-sizing: border-box;
+  font-size: 14px;
+    }
+  }
+  
+  @media only screen and (max-width: 487px) {
+    .priority-btn {
+        flex-basis: 61%;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+  }
+
+  @media only screen and (max-width: 360px) {
+    .add-task{
+        position: absolute;
+        top: 534px;
+        left: 24px;
+    }
+  }

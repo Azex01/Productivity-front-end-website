@@ -75,18 +75,21 @@ function updateTaskList() {
         const taskClass = task.completed ? 'completed-task' : '';
         const li = document.createElement('li');
         li.style.position = 'relative';
+        li.style.display="flex";
+        li.style.flexDirection="row";
+        li.style.justifyContent="space-between";
         
         li.innerHTML = `
             <div class="progress-overlay"></div>
             <span class="task-name ${taskClass}" onclick="markTaskComplete(${index})" style="cursor: pointer;">${task.name}</span>
-            <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
             <div class="priority-buttons">
                 <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
                 <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
                 <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
                 <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
+                <button class="start-btn" data-index="${index}" onclick="startTask(${index})">بدأ</button>
             </div>
-            <button class="start-btn" data-index="${index}" onclick="startTask(${index})">بدأ</button>
+            
             <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
         `;
         
@@ -109,11 +112,15 @@ function updateTaskList() {
             li.innerHTML = `
             <div class="progress-overlay"></div>
            <span class="task-name ${taskClass}" onclick="markTaskComplete(${index})" style="cursor: pointer;">${task.name}</span> 
+           
             <span class="task-time" onclick="adjustTaskTime(${index})" style="cursor: pointer;">${taskTime}</span>
+            
+            <div class="buttons-container">
             ${prioritySpan} 
                 ${!task.completed ? `  <button class="start-btnS" data-index="${index}" onclick="startTask(${index})">بدأ</button>` : ''}
 
                 <button class="delete-btnS" onclick="deleteTask(${index})">حذف</button>
+                </div>
                 
                 
             `;
@@ -177,7 +184,7 @@ function addTask() {
             modalOkBtnAlert.style.width = '50%';
             modalOkBtnAlert.style.margin = '0 auto';   
         }
-        modalAlert.style.display = 'block';
+        modalAlert.style.display = 'flex';
 
     }
 }

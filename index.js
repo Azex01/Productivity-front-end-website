@@ -1,4 +1,4 @@
-/* =============== [ المتغيرات العالمية ] =============== */
+/* ====================== [ المتغيرات العالمية ] ====================== */
 let timer;
 let minutes = 0;
 let seconds = 0;
@@ -21,15 +21,11 @@ const clearBtn = document.querySelector(".clear");
 var breakGif1 = document.getElementById("breakGif1");
 var breakGif2 = document.getElementById("breakGif2");
 
-/* 
-  [الصوت الخلفي الجديد]
-  عنصر الصوت وأسم الصوت المختار (مطر، نار، طبيعة...)
-*/
+/* الصوت الخلفي */
 let backgroundAudio = document.getElementById("bgAudio");
 let currentBgSound = null;
 
-/* =============== [ العناصر الخاصة بالمودالات ] =============== */
-// Prompt1 Modal
+/* مودالات مختلفة */
 const modalOverlay = document.getElementById("modalOverlay");
 const promptModal = document.getElementById("promptModal");
 const promptMessage = document.getElementById("promptMessage");
@@ -37,7 +33,6 @@ const promptInput = document.getElementById("promptInput");
 const promptOkBtn = document.getElementById("promptOkBtn");
 const promptCancelBtn = document.getElementById("promptCancelBtn");
 
-// Prompt2 Modal
 const modalOverlayForBreak = document.getElementById("modalOverlayForBreak");
 const promptModalForBreak = document.getElementById("promptModalForBreak");
 const promptMessageForBreak = document.getElementById("promptMessageForBreak");
@@ -47,7 +42,6 @@ const promptCancelBtnForBreak = document.getElementById(
   "promptCancelBtnForBreak"
 );
 
-// Prompt3 Modal
 const modalOverlayForAdjusment = document.getElementById(
   "modalOverlayForAdjusment"
 );
@@ -67,18 +61,23 @@ const promptCancelBtnForAdjusment = document.getElementById(
   "promptCancelBtnForAdjusment"
 );
 
-// Custom Alert Modal
 const modalAlert = document.getElementById("customModal");
 const modalMessageAlert = document.getElementById("customModalMessage");
 const modalOkBtnAlert = document.getElementById("customModalOkBtn");
 const modalCancelBtnAlert = document.getElementById("customModalCancelBtn");
 
-/* =============== [ إعداد المودال التنبيهي الأساسي ] =============== */
+/* =========== زر موافق في المودال التنبيهي =========== */
 modalOkBtnAlert.onclick = function () {
   modalAlert.style.display = "none";
 };
 
-/* =============== [ استرجاع الصوت المختار من Local Storage (إن وجد) ] =============== */
+/* 
+  userCustomOrder: إذا صار true, يعني المستخدم أعاد الترتيب يدويًا بالسحب والإفلات
+  ولن نعيد ترتيب المهام تلقائيًا.
+*/
+let userCustomOrder = false;
+
+/* ==================== [ استرجاع الصوت المختار ] ==================== */
 window.addEventListener("DOMContentLoaded", function () {
   const savedSound = localStorage.getItem("bgSound");
   if (savedSound) {
@@ -87,11 +86,31 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-/* 
-  ========================================================
-   الدالة التي تُظهر/تخفي القائمة المنسدلة لصوت الخلفية
-  ========================================================
-*/
+/* ===================== [ الدوال الخاصة بفرز المهام ] ===================== */
+/** يعطينا قيمة رقمية حسب نوع الأولوية. قيمة أصغر = ترتيب أعلى. */
+function getPriorityValue(priority) {
+  switch (priority) {
+    case "urgent-important":
+      return 1; // عاجل ومهم
+    case "urgent-not-important":
+      return 2; // عاجل وغير مهم
+    case "not-urgent-important":
+      return 3; // غير عاجل ومهم
+    case "not-urgent-not-important":
+      return 4; // غير عاجل وغير مهم
+    default:
+      return 5; // أي شيء آخر لم يحدد بعد
+  }
+}
+
+/** دالة تفرز المصفوفة tasks حسب الأولوية تصاعديًا */
+function sortTasksByPriority() {
+  tasks.sort((a, b) => {
+    return getPriorityValue(a.priority) - getPriorityValue(b.priority);
+  });
+}
+
+/* ====================== [ القائمة الصوتية ] ====================== */
 function toggleSoundDropdown() {
   const dropdown = document.getElementById("soundDropdown");
   if (dropdown.style.display === "block") {
@@ -101,15 +120,9 @@ function toggleSoundDropdown() {
   }
 }
 
-/* 
-  =======================================================
-   إغلاق القائمة عند الضغط خارجها
-  =======================================================
-*/
 document.addEventListener("click", function (event) {
   const dropdown = document.getElementById("soundDropdown");
   const soundMenu = document.querySelector(".sound-menu");
-  // إذا القائمة ظاهرة و النقر خارج .sound-menu، نخفيها
   if (
     dropdown &&
     dropdown.style.display === "block" &&
@@ -119,62 +132,86 @@ document.addEventListener("click", function (event) {
   }
 });
 
-/* 
-  ===============================================================
-   اختيار صوت الخلفية (مطر/نار/طبيعة) وتشغيله إن كانت مهمة شغالة
-  ===============================================================
-*/
 function selectBackgroundSound(soundName) {
-  // لو هو نفسه لا تغيّر
   if (currentBgSound === soundName) return;
-
   currentBgSound = soundName;
   backgroundAudio.src = soundName + ".mp3";
-
-  // احفظ في الستورج
   localStorage.setItem("bgSound", currentBgSound);
-
-  // إذا لدينا مهمة تعمل حالياً وليست بريك، شغّل الصوت فوراً
   if (isTimerOn && !breakFlag) {
     backgroundAudio.play();
   }
-
-  // أغلق الدروب داون
   toggleSoundDropdown();
 }
 
-/* =============== [ دوال قائمة المهام الأساسية ] =============== */
+/* ====================== [ حفظ + تهيئة المهام ] ====================== */
+function saveTasksToLocalStorage() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+/* كل مرة نرسم المهام, إن لم يكن userCustomOrder مفعلًا, نفرز حسب الأولوية */
 function updateTaskList() {
   const taskListElement = document.getElementById("taskList");
   taskListElement.innerHTML = "";
 
+  // بناء عناصر <li> لكل مهمة
   tasks.forEach((task, index) => {
     const taskTime = convertToMinutes(task.timeSpent);
     const taskClass = task.completed ? "completed-task" : "";
+
     const li = document.createElement("li");
     li.style.position = "relative";
     li.style.display = "flex";
     li.style.flexDirection = "row";
     li.style.justifyContent = "space-between";
 
+    // ========= [ أضف Events للسحب والإفلات ] =========
+    li.setAttribute("draggable", "true");
+
+    // عند بدء السحب نخزن index المهمة
+    li.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", index);
+    });
+
+    // منع السلوك الافتراضي للسماح بالإسقاط
+    li.addEventListener("dragover", (e) => {
+      e.preventDefault();
+    });
+
+    // عند الإسقاط, نأخذ fromIndex ونحركه إلى toIndex
+    li.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const fromIndex = parseInt(e.dataTransfer.getData("text/plain"));
+      const toIndex = index;
+      if (fromIndex !== toIndex) {
+        // انقل المهمة في المصفوفة
+        const movedTask = tasks.splice(fromIndex, 1)[0];
+        tasks.splice(toIndex, 0, movedTask);
+
+        // فعلنا الترتيب اليدوي:
+        userCustomOrder = true;
+
+        saveTasksToLocalStorage();
+        updateTaskList();
+      }
+    });
+
+    // محتوى العنصر li:
     li.innerHTML = `
-        <div class="progress-overlay"></div>
-        <span class="task-name ${taskClass}" onclick="markTaskComplete(${index})" style="cursor: pointer;">${task.name}</span>
-        <div class="priority-buttons">
-            <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
-            <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
-            <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
-            <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
-            <button class="start-btn" data-index="${index}" onclick="startTask(${index})">بدأ</button>
-        </div>
-        
-        <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
+      <div class="progress-overlay"></div>
+      <span class="task-name ${taskClass}" onclick="markTaskComplete(${index})" style="cursor: pointer;">${task.name}</span>
+      <div class="priority-buttons">
+        <button class="priority-btn" onclick="setPriority(${index}, 'urgent-important')">عاجل ومهم</button>
+        <button class="priority-btn" onclick="setPriority(${index}, 'urgent-not-important')">عاجل وغير مهم</button>
+        <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-important')">غير عاجل ومهم</button>
+        <button class="priority-btn" onclick="setPriority(${index}, 'not-urgent-not-important')">غير عاجل وغير مهم</button>
+        <button class="start-btn" data-index="${index}" onclick="startTask(${index})">بدأ</button>
+      </div>
+      <button class="delete-btn" onclick="deleteTask(${index})">حذف</button>
     `;
 
     taskListElement.appendChild(li);
-    var startButtons = document.getElementsByClassName("start-btnS");
 
-    //Apply the saved priority text if exists
+    // اذا كانت له اولوية محددة, غيّر واجهة العرض
     if (task.priority) {
       let prioritySpan = getPrioritySpan(task.priority);
 
@@ -201,25 +238,31 @@ function updateTaskList() {
         </div>
       `;
     }
-
-    if (tasks != null) {
-      clearBtn.style.display = "block";
-    }
-
-    // اذا ماحدد الاولويه مايقدر يبدأ
-    var startButtonsBig = document.getElementsByClassName("start-btn");
-    for (let i = 0; startButtonsBig.length > i; i++) {
-      startButtonsBig[i].disabled = true;
-    }
-
-    if (isTimerOn == true) {
-      for (let i = 0; startButtons.length > i; i++) {
-        startButtons[i].disabled = true;
-      }
-    }
   });
+
+  // إظهار زر "حذف الكل" إن كان فيه مهام
+  if (tasks.length > 0) {
+    clearBtn.style.display = "block";
+  } else {
+    clearBtn.style.display = "none";
+  }
+
+  // تعطيل زر "بدأ" ما لم يحدد أولوية
+  const startButtonsBig = document.getElementsByClassName("start-btn");
+  for (let i = 0; i < startButtonsBig.length; i++) {
+    startButtonsBig[i].disabled = true;
+  }
+
+  // اذا المؤقت شغال, نعطّل كل ازرار "بدأ" في الواجهه
+  if (isTimerOn) {
+    const startButtonsSmall = document.getElementsByClassName("start-btnS");
+    for (let i = 0; i < startButtonsSmall.length; i++) {
+      startButtonsSmall[i].disabled = true;
+    }
+  }
 }
 
+/* ===================== [ إضافة وحذف المهام ] ===================== */
 function addTask() {
   const taskInput = document.getElementById("taskInput");
   const taskName = taskInput.value.trim();
@@ -231,11 +274,13 @@ function addTask() {
     };
     tasks.push(newTask);
     taskInput.value = "";
-    saveTasksToLocalStorage();
-    clearBtn.style.display = "block";
-    if (isTimerOn == true) {
-      updateProgressOverlay();
+
+    // إذا المستخدم لم يقم بترتيب يدوي, نسوي ترتيب حسب الأولوية
+    if (!userCustomOrder) {
+      sortTasksByPriority();
     }
+
+    saveTasksToLocalStorage();
     updateTaskList();
   } else {
     modalMessageAlert.textContent = "يرجى إدخال اسم المهمة";
@@ -256,40 +301,37 @@ document
     }
   });
 
-function markTaskComplete(index) {
-  tasks[index].completed = !tasks[index].completed;
+function deleteTask(index) {
+  tasks.splice(index, 1);
+  saveTasksToLocalStorage();
+  updateTaskList();
 
-  if (checkSoundFlag === true && tasks[index].completed) {
-    checkSound.play();
-    checkSoundFlag = false;
-  } else {
-    checkSoundFlag = true;
-  }
-
-  if (index === currentTaskId && tasks[index].completed) {
+  if (index === currentTaskId) {
     addTimeToTask();
     defaultState();
     isTimerOn = false;
     pauseResumeButton.style.display = "none";
     currentTaskId = null;
-
-    const startBtn = document.querySelector(
-      `.start-btnS[data-index="${index}"]`
-    );
-    if (startBtn) {
-      startBtn.textContent = "بدأ";
-      startBtn.style.backgroundColor = "darkgreen";
-    }
   }
 
-  document.querySelectorAll(".start-btnS").forEach((btn) => {
-    btn.disabled = false;
-  });
-
-  saveTasksToLocalStorage();
-  updateTaskList();
+  if (tasks.length === 0) {
+    clearBtn.style.display = "none";
+  }
 }
 
+function clearTasks() {
+  localStorage.clear();
+  tasks = [];
+  updateTaskList();
+  defaultState();
+  isTimerOn = false;
+  pauseResumeButton.style.display = "none";
+  pauseResumeButton.textContent = "إبدأ";
+  clearBtn.style.display = "none";
+  currentTaskId = null;
+}
+
+/* ===================== [ دوال الأولوية ] ===================== */
 function getPriorityText(priorityClass) {
   switch (priorityClass) {
     case "urgent-important":
@@ -323,59 +365,49 @@ function getPrioritySpan(priorityClass) {
 function setPriority(index, priorityClass) {
   const task = tasks[index];
   task.priority = priorityClass;
+
+  // إذا ما عمل المستخدم ترتيب يدوي, أعد الترتيب حسب الأولوية
+  if (!userCustomOrder) {
+    sortTasksByPriority();
+  }
+
   saveTasksToLocalStorage();
   updateTaskList();
-
-  if (isTimerOn == true) {
-    updateProgressOverlay();
-  }
 }
 
-function convertToMinutes(timeInMinutes) {
-  return `${timeInMinutes} دقيقة`;
-}
+/* ===================== [ اكتمال مهمة ] ===================== */
+function markTaskComplete(index) {
+  tasks[index].completed = !tasks[index].completed;
 
-function saveTasksToLocalStorage() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-function deleteTask(index) {
-  tasks.splice(index, 1);
-  saveTasksToLocalStorage();
-  updateTaskList();
-  if (isTimerOn == true) {
-    updateProgressOverlay();
-  }
-  if (tasks.length == 0) {
-    clearBtn.style.display = "none";
+  if (checkSoundFlag === true && tasks[index].completed) {
+    checkSound.play();
+    checkSoundFlag = false;
+  } else {
+    checkSoundFlag = true;
   }
 
-  if (index === currentTaskId) {
+  if (index === currentTaskId && tasks[index].completed) {
     addTimeToTask();
     defaultState();
     isTimerOn = false;
     pauseResumeButton.style.display = "none";
     currentTaskId = null;
   }
-}
 
-function clearTasks() {
-  localStorage.clear();
-  tasks = [];
+  document.querySelectorAll(".start-btnS").forEach((btn) => {
+    btn.disabled = false;
+  });
+
+  saveTasksToLocalStorage();
   updateTaskList();
-  defaultState();
-  isTimerOn = false;
-  pauseResumeButton.style.display = "none";
-  pauseResumeButton.textContent = "إبدأ";
-  clearBtn.style.display = "none";
-  currentTaskId = null;
 }
 
-/* 
-  ============================
-   البدء بالمهمة (startTask)
-  ============================
-*/
+/* ===================== [ تنسيق الوقت ] ===================== */
+function convertToMinutes(timeInMinutes) {
+  return `${timeInMinutes} دقيقة`;
+}
+
+/* ===================== [ بدء مهمة ] ===================== */
 function startTask(index) {
   currentTaskId = index;
   const task = tasks[currentTaskId];
@@ -404,12 +436,12 @@ function startTask(index) {
       pauseResumeButton.classList.add("paused");
       promptInput.value = "";
 
-      // تعطيل كل ازرار "بدأ" إلا زر المهمة الحالية
+      // تعطيل كل ازرار "بدأ" عدا المهمة الحالية
       document.querySelectorAll(".start-btnS").forEach((btn) => {
         if (btn.dataset.index !== String(index)) btn.disabled = true;
       });
 
-      // [تشغيل الصوت إن كان مختاراً]
+      // تشغيل الصوت إن كان مختار
       if (currentBgSound) {
         backgroundAudio.play();
       }
@@ -432,11 +464,7 @@ function startTask(index) {
   };
 }
 
-/* 
-  =========================
-    بدء البريك (startBreak)
-  =========================
-*/
+/* ===================== [ بدء البريك ] ===================== */
 function startBreak() {
   myHero.play();
   breakFlag = true;
@@ -472,7 +500,7 @@ function startBreak() {
 
       promptInputForBreak.value = "";
 
-      // [توقف الصوت في البريك]
+      // إيقاف صوت الخلفية أثناء البريك
       backgroundAudio.pause();
       backgroundAudio.currentTime = 0;
     } else {
@@ -500,11 +528,7 @@ function startBreak() {
   };
 }
 
-/* 
-  ==========================================================
-   دوال المؤقت الرئيسية: startTimer, updateTimer, الخ...
-  ==========================================================
-*/
+/* ===================== [ المؤقت ] ===================== */
 let startTime;
 let targetTime;
 
@@ -539,6 +563,10 @@ function updateTimer() {
 function updateTimerDisplay() {
   const timerElement = document.getElementById("timer");
   timerElement.textContent = formatTime(minutes, seconds);
+}
+
+function formatTime(m, s) {
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
 function updateProgressOverlay() {
@@ -580,7 +608,7 @@ function resetOverlay() {
 }
 
 function handleTimerEnd() {
-  if (breakFlag === false) {
+  if (!breakFlag) {
     // انتهى وقت المهمة
     addTimeToTask();
     helperFlag = false;
@@ -589,26 +617,13 @@ function handleTimerEnd() {
     isTimerOn = false;
   } else {
     // انتهى وقت البريك
-    // نعيد الصفحة للوضع الافتراضي
     defaultState();
-    myHero.play(); // لو أردت تشغيل الصوت بعد انتهاء البريك
+    myHero.play();
   }
 }
 
-function formatTime(minutes, seconds) {
-  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-    2,
-    "0"
-  )}`;
-}
-
-/* 
-  ============================================
-   إيقاف واستئناف المؤقت + إيقاف/تشغيل الصوت
-  ============================================
-*/
+/* ===================== [ إيقاف واستئناف المؤقت ] ===================== */
 function togglePauseResume() {
-  // إذا المؤقت لم يبدأ
   if (
     pauseResumeButton.textContent == "إبدأ" &&
     minutes === 0 &&
@@ -625,35 +640,26 @@ function togglePauseResume() {
     return;
   }
 
-  // إذا المؤقت الآن في حالة "وقف" => المستخدم يريد الإيقاف المؤقت
   if (pauseResumeButton.textContent === "وقف") {
     clearInterval(timer);
     pauseResumeButton.textContent = "إستمر";
     pauseResumeButton.classList.add("continue");
-
-    // [إيقاف الصوت إن وجد]
     backgroundAudio.pause();
-
-    // إظهار زر "إنهاء" (إن كنت تستخدمه)
     addFinishButton();
   } else if (pauseResumeButton.textContent === "إستمر") {
-    // استئناف المؤقت
     startTimer();
     pauseResumeButton.textContent = "وقف";
     pauseResumeButton.classList.remove("continue");
     pauseResumeButton.classList.add("paused");
 
-    // [تشغيل الصوت من جديد لو لسنا في بريك]
     if (currentBgSound && !breakFlag) {
       backgroundAudio.play();
     }
-
-    // إزالة زر "إنهاء"
     removeFinishButton();
   }
 }
 
-/* =============== [ زر "إنهاء" ] =============== */
+/* ===================== [ زر إنهاء ] ===================== */
 function addFinishButton() {
   const existingFinishButton = document.querySelector(".finish-button");
   if (!existingFinishButton) {
@@ -661,8 +667,7 @@ function addFinishButton() {
     finishButton.textContent = "إنهاء";
     finishButton.classList.add("finish-button");
     finishButton.onclick = () => {
-      if (breakFlag === false) {
-        // ينهي المهمة
+      if (!breakFlag) {
         addTimeToTask();
         isTimerOn = false;
         pauseResumeButton.style.display = "none";
@@ -679,43 +684,6 @@ function addFinishButton() {
   }
 }
 
-function defaultState() {
-  removeFinishButton();
-  clearInterval(timer);
-  minutes = 0;
-  seconds = 0;
-
-  // إعادة نص "أنجز !" في المؤقت
-  time.innerHTML = "أنجز !";
-  const timerElement = document.getElementById("timer");
-  timerElement.textContent = formatTime(minutes, seconds);
-
-  // إخفاء صور البريك
-  breakGif1.style.display = "none";
-  breakGif2.style.display = "none";
-
-  // إعادة القيم المنطقية الافتراضية
-  breakFlag = false;
-  helperFlag = true;
-  isTimerOn = false;
-  currentTaskId = null;
-
-  // إعادة شريط التقدم إلى الصفر
-  resetOverlay();
-
-  // إعادة تفعيل كل أزرار "بدأ"
-  document.querySelectorAll(".start-btnS").forEach((btn) => {
-    btn.textContent = "بدأ";
-    btn.style.backgroundColor = "darkgreen";
-    btn.disabled = false;
-  });
-
-  // إخفاء زر الوقف/الاستمرار وتهيئته لـ "إبدأ"
-  pauseResumeButton.style.display = "none";
-  pauseResumeButton.textContent = "إبدأ";
-  pauseResumeButton.classList.remove("paused", "continue");
-}
-
 function removeFinishButton() {
   const finishButton = document.querySelector(".finish-button");
   if (finishButton) {
@@ -723,11 +691,40 @@ function removeFinishButton() {
   }
 }
 
-/* 
-  ============================
-   إضافة الوقت للمهمة الحالية
-  ============================
-*/
+/* ===================== [ الحالة الافتراضية ] ===================== */
+function defaultState() {
+  removeFinishButton();
+  clearInterval(timer);
+  minutes = 0;
+  seconds = 0;
+  time.innerHTML = "أنجز !";
+
+  const timerElement = document.getElementById("timer");
+  timerElement.textContent = formatTime(minutes, seconds);
+
+  breakGif1.style.display = "none";
+  breakGif2.style.display = "none";
+
+  breakFlag = false;
+  helperFlag = true;
+  isTimerOn = false;
+  currentTaskId = null;
+  resetOverlay();
+
+  // إعادة أزرار "بدأ"
+  document.querySelectorAll(".start-btnS").forEach((btn) => {
+    btn.textContent = "بدأ";
+    btn.style.backgroundColor = "darkgreen";
+    btn.disabled = false;
+  });
+
+  // إخفاء زر الوقف/الاستمرار
+  pauseResumeButton.style.display = "none";
+  pauseResumeButton.textContent = "إبدأ";
+  pauseResumeButton.classList.remove("paused", "continue");
+}
+
+/* ===================== [ إضافة وقت للمهمة ] ===================== */
 function addTimeToTask() {
   if (currentTaskId !== null && elapsedTimeInSeconds >= 60) {
     const elapsedMinutes = Math.floor(elapsedTimeInSeconds / 60);
@@ -756,11 +753,7 @@ function addTimeToTask() {
   }
 }
 
-/* 
-  ============================
-   تعديل وقت المهمة يدويًا
-  ============================
-*/
+/* ===================== [ تعديل وقت مهمة يدويًا ] ===================== */
 function adjustTaskTime(index) {
   let task2 = tasks[index];
 
@@ -801,7 +794,6 @@ function handleOK3(task2) {
       task2.timeSpent = newTime;
       saveTasksToLocalStorage();
       updateTaskList();
-
       modalOverlayForAdjusment.style.display = "none";
       promptModalForAdjusment.style.display = "none";
       promptInputForAdjusment.value = "";
@@ -815,11 +807,7 @@ function handleOK3(task2) {
   }
 }
 
-/* 
-  ===================
-    تعديل المهمة
-  ===================
-*/
+/* ===================== [ تعديل اسم وأولوية مهمة ] ===================== */
 function editTask(index) {
   const modalOverlayEdit = document.getElementById("modalOverlayForEdit");
   const promptModalEdit = document.getElementById("promptModalForEdit");
@@ -847,6 +835,11 @@ function editTask(index) {
     tasks[index].name = newName;
     tasks[index].priority = newPriority;
 
+    // لو ما في ترتيب يدوي, أعد فرزها بالأولوية
+    if (!userCustomOrder) {
+      sortTasksByPriority();
+    }
+
     saveTasksToLocalStorage();
     updateTaskList();
 
@@ -863,5 +856,9 @@ function editTask(index) {
   }
 }
 
-/* التهيئة الأولى */
+/* ===================== [ التهيئة الأولى ] ===================== */
+// في أول مرة, لو ما قام المستخدم بالترتيب اليدوي, نسوي فرز
+if (!userCustomOrder && tasks.length > 1) {
+  sortTasksByPriority();
+}
 updateTaskList();

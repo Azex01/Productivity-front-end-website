@@ -1,3 +1,33 @@
+/*new stuffs*/
+.sound-menu {
+  position: fixed; /* أو absolute */
+  top: 10px;
+  right: 10px;
+  z-index: 9999; /* لتظهر فوق العناصر الأخرى */
+}
+
+.sound-dropdown {
+  display: none; /* ستظهر عند الضغط */
+  position: absolute;
+  top: 40px; /* تحت الزر */
+  right: 0;
+  background-color: #222; /* لون خلفية القائمة */
+  border: 1px solid #555;
+  min-width: 100px;
+  border-radius: 5px;
+}
+
+.sound-dropdown .dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #fff; /* نص أبيض */
+}
+
+.sound-dropdown .dropdown-item:hover {
+  background-color: #333; /* تمييز عند الوقوف بالماوس */
+}
+/* wnd of new stuffs */
+
 body {
   direction: rtl; /* اتجاه النص من اليمين لليسار */
   text-align: right;

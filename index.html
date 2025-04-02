@@ -31,8 +31,33 @@
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
       rel="stylesheet"
     />
+    <!-- استيراد أيقونات Font Awesome (إصدار 6 مثالاً) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
   </head>
   <body>
+    <!-- new stuffs -->
+    <div class="sound-menu">
+      <button id="soundBtn" onclick="toggleSoundDropdown()">
+        <i class="fa-solid fa-play"></i>
+      </button>
+      <div class="sound-dropdown" id="soundDropdown">
+        <div class="dropdown-item" onclick="selectBackgroundSound('rain')">
+          مطر
+        </div>
+        <div class="dropdown-item" onclick="selectBackgroundSound('fire')">
+          نار
+        </div>
+        <div class="dropdown-item" onclick="selectBackgroundSound('nature')">
+          لا صوت
+        </div>
+      </div>
+    </div>
+    <audio id="bgAudio" loop style="display: none"></audio>
+
+    <!-- end of new stuffs -->
     <div class="main" id="main">
       <audio
         id="hero"

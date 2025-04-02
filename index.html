@@ -1,138 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0XR3YBW54T"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-0XR3YBW54T"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  gtag('config', 'G-0XR3YBW54T');
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+      gtag("config", "G-0XR3YBW54T");
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
     <title>إنجاز</title>
-    <link rel="icon" href="https://i.pinimg.com/736x/d0/a3/78/d0a378a6ea464b7f858f90cd868ba341.jpg" type="image/icon type">
+    <link
+      rel="icon"
+      href="https://i.pinimg.com/736x/d0/a3/78/d0a378a6ea464b7f858f90cd868ba341.jpg"
+      type="image/icon type"
+    />
     <!-- down here I will try to use Cairo font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
-</head>
-<body>
-
-
-    
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="main" id="main">
-        <audio id="hero" controls autoplay src="bell sound.mp3" style="display: none;"></audio>
-        <audio id="checkSound" controls autoplay src="Check mark sound effect.mp3" style="display: none;"></audio>
-        <div class="timer-container">
-            <div class="timer-circle" id="timer">
-               <span class="time">00:00</span> 
-            </div>
-            <button style="display: none;" class="pause-btn" onclick="togglePauseResume()">إبدأ</button>
+      <audio
+        id="hero"
+        controls
+        autoplay
+        src="bell sound.mp3"
+        style="display: none"
+      ></audio>
+      <audio
+        id="checkSound"
+        controls
+        autoplay
+        src="Check mark sound effect.mp3"
+        style="display: none"
+      ></audio>
+      <div class="timer-container">
+        <div class="timer-circle" id="timer">
+          <span class="time">أنجز !</span>
         </div>
+        <button
+          style="display: none"
+          class="pause-btn"
+          onclick="togglePauseResume()"
+        >
+          إبدأ
+        </button>
+      </div>
 
-        
-            <img id="breakGif1" src="https://i.gifer.com/15wQ.gif" alt="Motivational GIF" >
-            <img id="breakGif2" src="https://i.gifer.com/15wQ.gif" alt="Motivational GIF" >
+      <img
+        id="breakGif1"
+        src="https://i.gifer.com/15wQ.gif"
+        alt="Motivational GIF"
+      />
+      <img
+        id="breakGif2"
+        src="https://i.gifer.com/15wQ.gif"
+        alt="Motivational GIF"
+      />
 
-          
-        <div class="todo-container">
-            <h2 style="color: white;">قائمة الإنجاز</h2>
-            <input type="text" id="taskInput" placeholder="أضف مهمة جديدة">
-            <button class="add-task" onclick="addTask()">أضف مهمة</button>
-            <button class="clear" onclick="clearTasks() ">حذف الكل</button>
-            <ul id="taskList"></ul>
+      <div class="todo-container">
+        <h2 style="color: white">قائمة الإنجاز</h2>
+        <input type="text" id="taskInput" placeholder="أضف مهمة جديدة" />
+        <button class="add-task" onclick="addTask()">أضف مهمة</button>
+        <button class="clear" onclick="clearTasks() ">حذف الكل</button>
+        <ul id="taskList"></ul>
+      </div>
+
+      <!-- Prompt1 Modal -->
+      <div id="modalOverlay" class="modal-overlay" style="display: none">
+        <div id="promptModal" class="modal" style="display: none">
+          <p id="promptMessage"></p>
+          <input type="text" id="promptInput" />
+          <div class="modal-buttons">
+            <button id="promptOkBtn">موافق</button>
+            <!-- <button id="promptOkBtn2">موافق</button> -->
+
+            <button id="promptCancelBtn">إلغاء</button>
+          </div>
         </div>
+      </div>
+      <!-- Prompt2 Modal -->
+      <div
+        id="modalOverlayForBreak"
+        class="modal-overlay"
+        style="display: none"
+      >
+        <div id="promptModalForBreak" class="modal" style="display: none">
+          <p id="promptMessageForBreak"></p>
+          <input type="text" id="promptInputForBreak" />
+          <div class="modal-buttons">
+            <button id="promptOkBtnForBreak">موافق</button>
 
-         
-
-        <!-- Prompt1 Modal -->
-        <div id="modalOverlay" class="modal-overlay" style="display: none;">
-        <div id="promptModal" class="modal" style="display: none;">
-            <p id="promptMessage"></p>
-            <input type="text" id="promptInput">
-            <div class="modal-buttons">
-                <button id="promptOkBtn">موافق</button>
-                <!-- <button id="promptOkBtn2">موافق</button> -->
-
-                <button id="promptCancelBtn">إلغاء</button>
-            </div>
-
+            <button id="promptCancelBtnForBreak">إلغاء</button>
+          </div>
         </div>
+      </div>
+
+      <!-- Prompt3 Modal -->
+      <div
+        id="modalOverlayForAdjusment"
+        class="modal-overlay"
+        style="display: none"
+      >
+        <div id="promptModalForAdjusment" class="modal" style="display: none">
+          <p id="promptMessageForAdjusment"></p>
+          <input type="text" id="promptInputForAdjusment" />
+          <div class="modal-buttons">
+            <button
+              id="promptOkBtnForAdjusment"
+              onclick="promptOkBtnForAdjusment"
+            >
+              موافق
+            </button>
+
+            <button id="promptCancelBtnForAdjusment">إلغاء</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- now modal for alert -->
+
+      <!-- Modal Structure -->
+      <div id="customModal" class="custom-modal-overlay" style="display: none">
+        <div class="custom-modal">
+          <p id="customModalMessage" class="custom-modal-message">
+            This is a modal message!
+          </p>
+          <div class="custom-modal-buttons">
+            <button id="customModalOkBtn" class="custom-modal-button">
+              موافق
+            </button>
+            <button id="customModalCancelBtn" class="custom-modal-button">
+              إلغاء
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- مودال تعديل المهمة -->
+      <div id="modalOverlayForEdit" class="modal-overlay" style="display: none">
+        <div id="promptModalForEdit" class="modal" style="display: none">
+          <p id="promptMessageForEdit"></p>
+
+          <!-- حقل لإسم المهمة -->
+          <input
+            type="text"
+            id="promptInputForEdit"
+            style="
+              background-color: #121212;
+              border: solid #8c8273;
+              color: #e8e6e3;
+              border-radius: 30px;
+            "
+          />
+          <br />
+          <!-- قائمة منسدلة لاختيار الأولوية -->
+          <select
+            id="promptSelectForEdit"
+            style="
+              margin: 25px;
+              background-color: #121212;
+              border: solid #8c8273;
+              color: #e8e6e3;
+              border-radius: 30px;
+            "
+          >
+            <option value="urgent-important">عاجل ومهم</option>
+            <option value="urgent-not-important">عاجل وغير مهم</option>
+            <option value="not-urgent-important">غير عاجل ومهم</option>
+            <option value="not-urgent-not-important">غير عاجل وغير مهم</option>
+          </select>
+
+          <div class="modal-buttons">
+            <button id="promptOkBtnForEdit">موافق</button>
+            <button id="promptCancelBtnForEdit">إلغاء</button>
+          </div>
+        </div>
+      </div>
+
+      <footer id="footer">
+        <span>
+          بواسطة
+          <a target="_blank" href="https://github.com/Azex01">ازيكس</a>
+          <br />
+          <a
+            target="_blank"
+            href="https://www.google.com/maps/dir//%D8%AC%D8%A7%D9%85%D8%B9%D8%A9+%D8%A7%D9%84%D9%85%D9%84%D9%83+%D9%81%D9%87%D8%AF+%D9%84%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%84+%D9%88%D8%A7%D9%84%D9%85%D8%B9%D8%A7%D8%AF%D9%86%D8%8C+Mall%D8%8C+%D8%A7%D9%84%D8%B8%D9%87%D8%B1%D8%A7%D9%86+34463%E2%80%AD/@26.31428,50.2174193,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3e49e7429ae14def:0x90a47213d711f96!2m2!1d50.147379!2d26.314297?entry=ttu&g_ep=EgoyMDI1MDEyNy4wIKXMDSoASAFQAw%3D%3D"
+            >صنع بحب في مكيال🍵</a
+          >
+        </span>
+      </footer>
     </div>
-     <!-- Prompt2 Modal -->
-    <div id="modalOverlayForBreak" class="modal-overlay" style="display: none;">
-        <div id="promptModalForBreak" class="modal" style="display: none;">
-            <p id="promptMessageForBreak"></p>
-            <input type="text" id="promptInputForBreak">
-            <div class="modal-buttons">
-                <button id="promptOkBtnForBreak">موافق</button>
-              
-
-                <button id="promptCancelBtnForBreak">إلغاء</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Prompt3 Modal -->
-    <div id="modalOverlayForAdjusment" class="modal-overlay" style="display: none;">
-        <div id="promptModalForAdjusment" class="modal" style="display: none;">
-            <p id="promptMessageForAdjusment"></p>
-            <input type="text" id="promptInputForAdjusment">
-            <div class="modal-buttons">
-                <button id="promptOkBtnForAdjusment" onclick="promptOkBtnForAdjusment">موافق</button>
-              
-
-                <button id="promptCancelBtnForAdjusment">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- now modal for alert -->
-
-    <!-- Modal Structure -->
-<div id="customModal" class="custom-modal-overlay" style="display: none;">
-    <div class="custom-modal">
-        <p id="customModalMessage" class="custom-modal-message">This is a modal message!</p>
-        <div class="custom-modal-buttons">
-            <button id="customModalOkBtn" class="custom-modal-button">موافق</button>
-            <button id="customModalCancelBtn" class="custom-modal-button">إلغاء</button>
-        </div>
-    </div>
-</div>
-
-<footer id="footer">
-    <span>
-       بواسطة 
-      <a target="_blank" href="https://github.com/Azex01">ازيكس</a>
-      <br>
-      <a  target="_blank" href="https://www.google.com/maps/dir//%D8%AC%D8%A7%D9%85%D8%B9%D8%A9+%D8%A7%D9%84%D9%85%D9%84%D9%83+%D9%81%D9%87%D8%AF+%D9%84%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%84+%D9%88%D8%A7%D9%84%D9%85%D8%B9%D8%A7%D8%AF%D9%86%D8%8C+Mall%D8%8C+%D8%A7%D9%84%D8%B8%D9%87%D8%B1%D8%A7%D9%86+34463%E2%80%AD/@26.31428,50.2174193,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3e49e7429ae14def:0x90a47213d711f96!2m2!1d50.147379!2d26.314297?entry=ttu&g_ep=EgoyMDI1MDEyNy4wIKXMDSoASAFQAw%3D%3D">صنع بحب في مكيال🍵</a>
-    </span>
-  </footer>
-  
-  
-
-
-
-
-
-       
-
-
-
-    </div>
-
-
-
-
-    
 
     <script src="index.js"></script>
-</body>
+  </body>
 </html>

@@ -1,65 +1,60 @@
-body{
-    direction: rtl;       /* اتجاه النص من اليمين لليسار */
-    text-align: right;
-    background-color: #141414;
-    font-family: 'Cairo';
+body {
+  direction: rtl; /* اتجاه النص من اليمين لليسار */
+  text-align: right;
+  background-color: #141414;
+  font-family: "Cairo";
 }
 
 .todo-container {
-    margin-top: 50px;
-    text-align: center;
+  margin-top: 50px;
+  text-align: center;
 }
 
 #taskInput {
-    padding: 18px;
-    margin-right: 10px;
-    font-size: 16px;
-    border-radius: 30px;
-
+  padding: 18px;
+  margin-right: 10px;
+  font-size: 16px;
+  border-radius: 30px;
+  background-color: #121212;
+  border: solid #8c8273;
+  color: #e8e6e3;
 }
 #taskInput:focus {
-    outline: none;
+  outline: none;
 }
 
-
 ul {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: white;
-    margin: 5px 0;
-    border-radius: 5px;
-    color: #141414;
-    
-    position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #181a1b;
+  margin: 5px 0;
+  border-radius: 5px;
+  color: #e8e6e3;
+
+  position: relative;
 }
 
+span.task-time {
+  margin-top: 2px;
+  /* new things : */
 
-
-
-
-
-span.task-time{
-    margin-top: 2px;
-    /* new things : */
-    
-    cursor: pointer;
-     position: absolute;
-     right: 24%;
-   
+  cursor: pointer;
+  position: absolute;
+  right: 24%;
 }
 
 /* span.task-time:hover{
     color: blue;
 
 } */
-span.task-name{
-    margin-top: 2px;
+span.task-name {
+  margin-top: 2px;
 }
 
 /* .stop-btn{
@@ -69,255 +64,235 @@ span.task-name{
  */
 
 button {
-    background-color: darkgreen;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: 5px;
+  background-color: #005000;
+  color: #e8e6e3;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 30px;
 }
 
 button:hover {
-    background-color: #141414;
+  background-color: #141414;
 }
 
-button.add-task{
-    margin-right: 7px;
+button.add-task {
+  margin-right: 7px;
 }
 
-button.add-task:hover{
-    background-color: white;
-    color: #141414;
+button.add-task:hover {
+  background: #4caf50;
 }
 
 .timer-circle {
-    border-radius: 50%;
-    width: 300px;
-    height: 300px;
-    margin: 20px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 50px;
-    color: black;
-    border: 8px solid black;
-  
+  border-radius: 50%;
+  width: 350px;
+  height: 350px;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  color: white;
+  border: 8px solid #8c8273;
 }
-
-
 
 .timer-container {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 0 auto;
-    margin-top: 41px;
-    transition: all 0.3s;
+  position: relative;
+  width: 350px;
+  height: 350px;
+  margin: 0 auto;
+  margin-top: 41px;
+  transition: all 0.3s;
 }
 
-.timer-container:hover{
-    transform: translateY(+1%) scale(1.05);
-    .pause-btn{
-        display: block;
-    }
-    .finish-button{
-        display: block;
-    }
+.timer-container:hover {
+  transform: translateY(+1%) scale(1.05);
+  .pause-btn {
+    display: block;
+  }
+  .finish-button {
+    display: block;
+  }
 }
-
 
 .timer-circle {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3em;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    
-    font-size: 62px;
-    
-    
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #202325;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3em;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 
+  font-size: 62px;
 }
 
-
-
 .pause-btn {
-    position: absolute;
-    bottom: 17%;
-    left: 47%;
-    transform: translateX(-50%);
-    padding: 12px 30px;
-    font-size: 1.2em;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: none;
+  position: absolute;
+  bottom: 17%;
+  left: 47%;
+  transform: translateX(-50%);
+  padding: 12px 30px;
+  font-size: 1.2em;
+  background-color: #005000;
+  color: #e8e6e3;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: none;
 }
 
 .pause-btn.paused {
-    background: #ff4757 ;     
-
+  background-color: #6f0000;
+  color: #e8e6e3;
 }
 
-.pause-btn.paused:hover{
-    background: #ff4757
-    
-    
+.pause-btn.paused:hover {
+  background-color: #6f0000;
+  color: #e8e6e3;
 }
 
 .pause-btn.continue {
-    background: #4CAF50 ;
-    
+  background-color: #005000;
+  color: #e8e6e3;
 }
 
-.pause-btn.continue:hover{
-    background-color: #45a049;
+.pause-btn.continue:hover {
+  background-color: #45a049;
+}
+#promptCancelBtnForBreak {
+  background-color: #6f0000;
+  color: #e8e6e3;
+}
+#promptCancelBtnForEdit {
+  background-color: #6f0000;
+  color: #e8e6e3;
+}
+#promptCancelBtnForAdjusment {
+  background-color: #6f0000;
+  color: #e8e6e3;
+}
+#promptCancelBtn {
+  background-color: #6f0000;
+  color: #e8e6e3;
 }
 
 .pause-btn:hover {
-    background: #4CAF50;
-    transform: translateX(-50%) scale(1.05);
+  background: #4caf50;
+  transform: translateX(-50%) scale(1.05);
 }
-.finish-button{
-    position: absolute;
-    bottom: 0%;
-    left: 47%;
-    transform: translateX(-50%);
-    padding: 12px 30px;
-    font-size: 1.2em;
-    background: #ff4757;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: none;
+.finish-button {
+  position: absolute;
+  bottom: 0%;
+  left: 47%;
+  transform: translateX(-50%);
+  padding: 12px 30px;
+  font-size: 1.2em;
+  background-color: #6f0000;
+  color: #e8e6e3;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: none;
 }
 
 .finish-button:hover {
-    background: #ff4757;
-    transform: translateX(-50%) scale(1.05);
+  background: #ff4757;
+  transform: translateX(-50%) scale(1.05);
 }
 
-
-.delete-btn{
-    /* position: absolute;
+.delete-btn {
+  /* position: absolute;
     left: 17px; */
-    background-color: darkred;
-    
-    
+  background-color: #6f0000;
+  color: #e8e6e3;
 }
 
-
-.delete-btnS{
-    position: absolute;
-    left: 1%;
-    background-color: darkred;
-    
-    
+.delete-btnS {
+  position: absolute;
+  left: 1%;
+  background-color: #6f0000;
+  color: #e8e6e3;
 }
-
-.delete-btn:hover{
-    background: #ff4757;
-    
+.delete-btnS:hover {
+  background-color: #e03e4e;
 }
-
 
 .priority-text {
-    font-weight: bold;
-    position: absolute;
-    left: 40%;
+  font-weight: bold;
+  position: absolute;
+  left: 40%;
 }
 
 .priority-text.urgent-important {
-    color: #B71C1C;
-  }
-  .priority-text.urgent-not-important {
-    color: #FF9800;
-  }
-  .priority-text.not-urgent-important {
-    color: #009688;
-  }
-  .priority-text.not-urgent-not-important {
-    color: #9E9E9E;
-  }
-  
-
-
-
-
-
-
-
-
-
+  color: #b71c1c;
+}
+.priority-text.urgent-not-important {
+  color: #ff9800;
+}
+.priority-text.not-urgent-important {
+  color: #009688;
+}
+.priority-text.not-urgent-not-important {
+  color: #9e9e9e;
+}
 
 /* تنسيق أزرار الأولوية */
 .priority-buttons {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: center;  /* أو space-between */
-    align-items: center;
-    /* احذف أي position: absolute; أو إزاحات */
-  }
-  
-
- .priority-btn {
-    background-color: darkslategrey;
-    white-space: normal;       /* يسمح بفصل الأسطر */
-    word-wrap: break-word;     /* إذا كانت الكلمة طويلة جدًا */
-    overflow-wrap: break-word; /* لبعض المتصفحات القديمة */
-    text-align: center; 
-    
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center; /* أو space-between */
+  align-items: center;
+  /* احذف أي position: absolute; أو إزاحات */
 }
 
-
+.priority-btn {
+  background-color: darkslategrey;
+  white-space: normal; /* يسمح بفصل الأسطر */
+  word-wrap: break-word; /* إذا كانت الكلمة طويلة جدًا */
+  overflow-wrap: break-word; /* لبعض المتصفحات القديمة */
+  text-align: center;
+}
 
 #breakGif1 {
-    position: absolute;
-    bottom: 333px;
-    right: 188px;
-    width: 368px;
-    height: auto;
-    z-index: 1000;
-    display: none;
-
+  position: absolute;
+  bottom: 333px;
+  right: 188px;
+  width: 368px;
+  height: auto;
+  z-index: 1000;
+  display: none;
 }
 #breakGif2 {
-    position: absolute;
-    bottom: 333px;
-    left: 188px;
-    width: 368px;
-    height: auto;
-    z-index: 1000;
-    display: none;
+  position: absolute;
+  bottom: 333px;
+  left: 188px;
+  width: 368px;
+  height: auto;
+  z-index: 1000;
+  display: none;
 }
 
-.task-name, .task-time {
-    word-wrap: break-word;
-    overflow-wrap: break-word; /* Ensures compatibility with older browsers */
-    white-space: normal; /* Allows text to wrap */
-    max-width: 250px; /* Set a specific width to trigger wrapping */
+.task-name,
+.task-time {
+  word-wrap: break-word;
+  overflow-wrap: break-word; /* Ensures compatibility with older browsers */
+  white-space: normal; /* Allows text to wrap */
+  max-width: 250px; /* Set a specific width to trigger wrapping */
 }
-
 
 .completed-task {
-    text-decoration: line-through;
-    color: gray;
+  text-decoration: line-through;
+  color: gray;
 }
-
-
-
 
 /* .complete-btnS {
     position: absolute;
@@ -325,62 +300,97 @@ button.add-task:hover{
 } */
 
 .start-btnS {
-    position: absolute;
-    right: 70%;}
+  position: absolute;
+  right: 70%;
+}
+.start-btnS:hover {
+  background: #4caf50;
+}
 
-.start-btn{
-        
-        display: none;
+.start-btn {
+  display: none;
 }
 
 /* Existing CSS not shown here (your styling for .main, .timer-container, etc.) */
 
 /* Modal overlay (dark background) */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
-  
-  /* Modal box */
-  .modal {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    min-width: 300px;
-    text-align: center;
-  }
-  
-  /* Input field in prompt modal */
-  #promptInput {
-    width: 80%;
-    padding: 8px;
-    margin: 10px 0;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
 
-  #promptInputForBreak{
-    width: 80%;
-    padding: 8px;
-    margin: 10px 0;
-  }
-  
-  /* Buttons in prompt modal */
-  .modal-buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-  }
-  
+/* Modal box */
+.modal {
+  background-color: #181a1b;
+  color: #e8e6e3;
+  border-radius: 8px;
+  padding: 20px;
+  min-width: 300px;
+  text-align: center;
+}
 
-  /* alert modal styling : */
-  /* Modal overlay (background dimming effect) */
+/* Input field in prompt modal */
+#promptInput {
+  width: 80%;
+  padding: 8px;
+  margin: 10px 0;
+  background-color: #121212;
+  border: solid #8c8273;
+  color: #e8e6e3;
+  border-radius: 30px;
+}
+#promptInput:focus {
+  outline: none;
+}
+
+#promptInputForBreak {
+  width: 80%;
+  padding: 8px;
+  margin: 10px 0;
+  background-color: #121212;
+  border: solid #8c8273;
+  color: #e8e6e3;
+  border-radius: 30px;
+}
+#promptInputForBreak:focus {
+  outline: none;
+}
+#promptModalForAdjusment input {
+  width: 40%;
+  padding: 8px;
+  margin: 10px 0;
+  background-color: #121212;
+  border: solid #8c8273;
+  color: #e8e6e3;
+  border-radius: 30px;
+}
+#promptModalForAdjusment input:focus {
+  outline: none;
+}
+#promptInputForEdit:focus {
+  outline: none;
+}
+#promptSelectForEdit:focus {
+  outline: none;
+}
+
+/* Buttons in prompt modal */
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+/* alert modal styling : */
+/* Modal overlay (background dimming effect) */
 /* .custom-modal-overlay {
     position: relative;
     top: -688px;
@@ -408,65 +418,64 @@ button.add-task:hover{
     top: -410px;
 } */
 
-
 /* Overlay يغطي كامل الشاشة */
 .custom-modal-overlay {
-    position: fixed;
-    top: 0; 
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);  /* خلفية شفافة لتعتيم الصفحة */
-    display: none;                     /* يُصبح display: flex عند الفتح */
-    justify-content: center;           /* توسيط أفقي */
-    align-items: center;               /* توسيط عمودي */
-    z-index: 9999;                     /* للتأكد من ظهورها فوق بقية العناصر */
-  }
-  
-  /* صندوق الـModal نفسه */
-  .custom-modal {
-    background-color: #fff;     /* لون خلفية */
-    border-radius: 8px;         /* زوايا مستديرة */
-    padding: 20px 30px;         /* حواف داخلية */
-    max-width: 400px;           /* الحد الأقصى للعرض */
-    width: 90%;                 /* للتمدد بما يناسب الشاشات الصغيرة */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    text-align: center;         /* محاذاة النص بالمنتصف */
-  }
-  
-  /* نص الرسالة */
-  .custom-modal-message {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  
-  /* أزرار النافذة */
-  .custom-modal-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  /* مثال تنسيق الأزرار */
-  .custom-modal-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  .custom-modal-button:hover {
-    background-color: #45a049;
-  }
-  /* زر الإلغاء لون مختلف */
-  #customModalCancelBtn {
-    background-color: #ff4757;
-  }
-  #customModalCancelBtn:hover {
-    background-color: #e03e4e;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* خلفية شفافة لتعتيم الصفحة */
+  display: none; /* يُصبح display: flex عند الفتح */
+  justify-content: center; /* توسيط أفقي */
+  align-items: center; /* توسيط عمودي */
+  z-index: 9999; /* للتأكد من ظهورها فوق بقية العناصر */
+}
+
+/* صندوق الـModal نفسه */
+.custom-modal {
+  background-color: #181a1b; /* لون خلفية */
+  border-radius: 8px; /* زوايا مستديرة */
+  padding: 20px 30px; /* حواف داخلية */
+  max-width: 400px; /* الحد الأقصى للعرض */
+  width: 90%; /* للتمدد بما يناسب الشاشات الصغيرة */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center; /* محاذاة النص بالمنتصف */
+  color: #e8e6e3;
+}
+
+/* نص الرسالة */
+.custom-modal-message {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* أزرار النافذة */
+.custom-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* مثال تنسيق الأزرار */
+.custom-modal-button {
+  background-color: #3d8c40;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.custom-modal-button:hover {
+  background-color: #45a049;
+}
+/* زر الإلغاء لون مختلف */
+#customModalCancelBtn {
+  background-color: #ff4757;
+}
+#customModalCancelBtn:hover {
+  background-color: #e03e4e;
+}
 
 /* Modal message text */
 /* .custom-modal-message {
@@ -511,92 +520,101 @@ button.add-task:hover{
 HHHHHHHHHHHHeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrooooooooooooooooooooooooooooooooooooo
 */
 
-#hero{
-    opacity: 0;
-    width: 1px;
-    height: 1px;
+#hero {
+  opacity: 0;
+  width: 1px;
+  height: 1px;
 }
 
 /* Tooltip container */
 
-
-
-
-.clear{
-    /* position: relative; */
-    left: -1409px;
-    top: -37px;
-    background-color: darkred;
-    display: none;
-    margin-bottom: 20px;
-    margin-top: 21px;
-  
+.clear {
+  /* position: relative; */
+  left: -1409px;
+  top: -37px;
+  background-color: #6f0000;
+  color: #e8e6e3;
+  display: none;
+  margin-bottom: 20px;
+  margin-top: 21px;
 }
 
-.clear:hover{
-    background-color: #e03e4e;
+.clear:hover {
+  background-color: #e03e4e;
 }
 
 /* عنصر تراكبي يمثّل تعبئة المهمة أو البريك */
 .progress-overlay {
-    position: absolute;
-    top: 0;
-    right: 0; /* ابدأ من اليمين كي يمتد ناحية اليسار */
-    height: 100%;
-    width: 0%;               /* يبدأ من عرض 0% */
-    pointer-events: none;     /* حتى لا يؤثر على النقرات */
-    z-index: 0;              /* خلف النصوص والأزرار */
-    transition: width 0.2s linear; /* لتحديث سلس كل ثانية */
+  position: absolute;
+  top: 0;
+  right: 0; /* ابدأ من اليمين كي يمتد ناحية اليسار */
+  height: 100%;
+  width: 0%; /* يبدأ من عرض 0% */
+  pointer-events: none; /* حتى لا يؤثر على النقرات */
+  z-index: 0; /* خلف النصوص والأزرار */
+  transition: width 0.2s linear; /* لتحديث سلس كل ثانية */
 }
 
-
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}  
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
-
-
+.edit-btn {
+  background-color: #1b4958; /* أزرق فاتح */
+  color: #e8e6e3; /* لون النص أسود أو حسب الرغبة */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 30px;
+  position: absolute;
+  left: 13%;
+  top: 20%;
+}
+.edit-btn:hover {
+  background-color: #1c6e89;
+}
 
 footer {
-    background-color: #141414; /* يمكنك استخدام #141414 لتطابق خلفية موقعك */
-    padding: 0px;
-    text-align: center;
-    margin-top: 187px; /* مسافة علوية للفصل عن باقي المحتوى */
-    color: #fff;      /* لون النص */
-    font-family: 'Cairo', sans-serif; /* إن كنت تستخدم خط Cairo */
-    border-top: 1px solid #444; /* خط علوي خفيف للمظهر */
+  background-color: #141414; /* يمكنك استخدام #141414 لتطابق خلفية موقعك */
+  padding: 0px;
+  text-align: center;
+  margin-top: 187px; /* مسافة علوية للفصل عن باقي المحتوى */
+  color: #fff; /* لون النص */
+  font-family: "Cairo", sans-serif; /* إن كنت تستخدم خط Cairo */
+  border-top: 1px solid #444; /* خط علوي خفيف للمظهر */
+}
+
+footer p {
+  margin: 0; /* إزالة الهوامش الافتراضية حول الفقرة */
+  line-height: 1.6;
+}
+
+footer a {
+  color: #4caf50; /* لون الروابط */
+  text-decoration: none; /* إزالة التسطير */
+  font-weight: bold; /* جعل الرابط بارزًا */
+}
+
+footer a:hover {
+  color: #45a049; /* لون عند التمرير بالفأرة */
+}
+
+@media (max-width: 600px) {
+  footer {
+    padding: 15px;
   }
-  
   footer p {
-    margin: 0; /* إزالة الهوامش الافتراضية حول الفقرة */
-    line-height: 1.6;
+    font-size: 14px;
   }
-  
-  footer a {
-    color: #4CAF50;         /* لون الروابط */
-    text-decoration: none;  /* إزالة التسطير */
-    font-weight: bold;      /* جعل الرابط بارزًا */
-  }
-  
-  footer a:hover {
-    color: #45a049;         /* لون عند التمرير بالفأرة */
-  }
-  
-  @media (max-width: 600px) {
-    footer {
-      padding: 15px;
-    }
-    footer p {
-      font-size: 14px;
-    }
-  }
+}
 
 /* Mobile Styles */
 /* @media only screen and (max-width: 768px) {
@@ -747,7 +765,7 @@ footer {
     }
 } */
 
-  /* @media only screen and (max-width:520px){
+/* @media only screen and (max-width:520px){
     .start-btnS{
         right: 1%;
     }
@@ -778,88 +796,103 @@ footer {
     }
 
   } */
- 
-  
-   
-  @media only screen and (max-width: 590px) {
-    /* تنسيق عناصر <li> */
-    #taskList li {
-      display: flex; 
-      flex-direction: column; 
-      align-items: center;
-      text-align: center;
-      position: relative;
-    }
-  
-    /* تنسيق الحاوية التي تضم زرّ "بدأ" وزرّ "حذف" */
-    .buttons-container {
-      display: flex;             /* ضروري لتفعيل خصائص الفليكس */
-      flex-direction: column;    /* ترتيب عمودي */
-      align-items: center;       /* توسيط أفقي */
-      gap: 5px;                  /* مسافة بين الأزرار */
-    }
-  
-    /* لجعل الأزرار نفسها لا تعتمد على position: absolute */
-    .start-btnS,
-    .delete-btnS {
-      position: static;
-      margin: 5px 0;      
-      /* يمكنك إضافة width: 80%; إن أردت */
-    }
-  
-    /* نص المهمة */
-    span.task-name {
-      position: static !important;
-      width: auto;       
-      margin: 5px 0;
-      text-align: center;
-    }
-  
-    /* وقت المهمة */
-    span.task-time {
-      position: static;
-      margin: 5px 0;
-      text-align: center;
-      cursor: pointer;
 
-    }
-  
-    /* نص الأولوية */
-    .priority-text {
-     
-      width: auto;
-      margin: 4px 20px;
-      text-align: center;
-    }
-  
-    /* أزرار الأولوية */
-    .priority-buttons {
-      display: flex;
-      
-      gap: 5px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 5px;
-    }
-    .priority-btn{
-        flex-basis: 37%;
-  box-sizing: border-box;
-  font-size: 14px;
-    }
-  }
-  
-  @media only screen and (max-width: 487px) {
-    .priority-btn {
-        flex-basis: 61%;
-        box-sizing: border-box;
-        font-size: 14px;
-    }
+@media only screen and (max-width: 711px) {
+  /* تنسيق عناصر <li> */
+  #taskList li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
   }
 
-  @media only screen and (max-width: 360px) {
-    .add-task{
-        position: absolute;
-        top: 534px;
-        left: 24px;
-    }
+  /* تنسيق الحاوية التي تضم زرّ "بدأ" وزرّ "حذف" */
+  .buttons-container {
+    display: flex; /* ضروري لتفعيل خصائص الفليكس */
+    flex-direction: column; /* ترتيب عمودي */
+    align-items: center; /* توسيط أفقي */
+    gap: 5px; /* مسافة بين الأزرار */
   }
+
+  /* لجعل الأزرار نفسها لا تعتمد على position: absolute */
+  .start-btnS,
+  .delete-btnS,
+  .edit-btn {
+    position: static;
+    margin: 5px 0;
+    /* يمكنك إضافة width: 80%; إن أردت */
+  }
+
+  /* نص المهمة */
+  span.task-name {
+    position: static !important;
+    width: auto;
+    margin: 5px 0;
+    text-align: center;
+  }
+
+  /* وقت المهمة */
+  span.task-time {
+    position: static;
+    margin: 5px 0;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  /* نص الأولوية */
+  .priority-text {
+    width: auto;
+    margin: 4px 20px;
+    text-align: center;
+  }
+
+  /* أزرار الأولوية */
+  .priority-buttons {
+    display: flex;
+
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  .priority-btn {
+    flex-basis: 37%;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  .breakGif1 {
+    display: none;
+  }
+  .breakGif2 {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 487px) {
+  .priority-btn {
+    flex-basis: 61%;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  .breakGif1 {
+    display: none;
+  }
+  .breakGif2 {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .add-task {
+    position: absolute;
+    top: 534px;
+    left: 24px;
+  }
+  .breakGif1 {
+    display: none;
+  }
+  .breakGif2 {
+    display: none;
+  }
+}
